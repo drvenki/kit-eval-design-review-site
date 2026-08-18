@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Recommendation — kit complexity evaluation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <div class="brand">
+    <b>Kit complexity evaluation</b>
+    <span>Design &amp; statistics review · 17 Aug 2026</span>
+  </div>
+  <div class="grp">Overview</div>
+  <ol><li><a href="index.html"><span class="n">00</span>Summary</a></li></ol>
+  <div class="grp">The study as executed</div>
+  <ol>
+    <li><a href="1-design.html"><span class="n">01</span>Experimental design</a></li>
+    <li><a href="2-confounding.html"><span class="n">02</span>Confounding &amp; defects</a></li>
+  </ol>
+  <div class="grp">Statistics</div>
+  <ol>
+    <li><a href="3a-plain-english.html"><span class="n">3a</span>In plain English</a></li>
+    <li><a href="3-statistics.html"><span class="n">03</span>The problem, quantified</a></li>
+    <li><a class="here" href="4-recommendation.html"><span class="n">04</span>Recommendation</a></li>
+    <li><a href="5-figure.html"><span class="n">05</span>New Figure 1</a></li>
+    <li><a href="6-tables.html"><span class="n">06</span>Results tables</a></li>
+  </ol>
+  <div class="grp">Manuscript</div>
+  <ol>
+    <li><a href="7-critique.html"><span class="n">07</span>Critique of the rest</a></li>
+    <li><a href="8-methods.html"><span class="n">08</span>Methods text</a></li>
+    <li><a href="9-actions.html"><span class="n">09</span>Action checklist</a></li>
+  </ol>
+  <div class="grp">Compliance</div>
+  <ol>
+    <li><a href="10-ki-standards.html"><span class="n">10</span>KI standards</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="kicker">Statistics</p>
+<h1>Recommendation</h1>
+<p class="lede">One model, four sensitivity analyses, and a decision about the EVO cfDNA run that
+has to be made before any of the rest matters.</p>
+
+<h2 id="primary">Primary analysis</h2>
+<p>For each sample type separately, on the logit of the conversion rate:</p>
+<pre><code>m &lt;- lmerTest::lmer(logit(y) ~ kit + (1 | kit:batch), data = d, REML = TRUE)
+anova(m, ddf = "Kenward-Roger")          # omnibus</code></pre>
+<p>with pairwise kit contrasts computed on the batch means using the model's pooled batch-level
+SD, Holm-adjusted within sample type. Implemented in
+<code>program/plot_conversion_rate_batchlevel_20260817.R</code>.</p>
+
+<h3>Why this rather than a rank test on batch means</h3>
+<ul>
+  <li><b>It honours the aggregation ST asked for.</b> For this balanced design the mixed model
+  is algebraically the same test as an ANOVA on the three batch means; the technical replicates
+  contribute only through the within-batch variance, which is exactly their role. Verified on your
+  data: cfDNA ANOVA-on-batch-means F(5,12) = 8.70 versus LMM F(5,12.0) = 8.73.</li>
+  <li><b>It recovers the power that naive aggregation throws away</b>, by pooling batch-to-batch
+  variance across the five or six kits within a sample type. Error df go from 4 to 10 or 12. That
+  is the entire difference between 0/15 and 6/15 in cfDNA.</li>
+  <li><b>It reports the batch effect instead of assuming it away.</b> The variance components go in
+  the figure subtitle and in Table 1. A reviewer who asks "did you check for batch effects?" is
+  answered by the figure itself.</li>
+  <li><b>It does not require independence of the technical replicates.</b> That is precisely what
+  the random intercept models.</li>
+</ul>
+
+<p>Report per sample type: F, numerator and denominator df, p; between-batch SD, within-batch SD
+and ICC; and per kit the mean of the batch means with its SD and n (3 batches, 8 or 9
+libraries).</p>
+
+<h2 id="similar">"How can we perform a similar test as already done?"</h2>
+<p>The presentation stays the same: four panels, a boxplot per kit, points overlaid, significance
+brackets. Three things change.</p>
+
+<div class="box note">
+  <p class="t">Change 1 — the overlaid points become the 3 batch means</p>
+  <p>"Three points become one point", as requested. Keep the 9 libraries as small grey dots behind
+  them so the reader can see the technical spread, and label them in the legend as technical
+  replicates so nobody mistakes them for the analysis unit. If you prefer to follow ST
+  literally, drop the grey dots; the inference is unchanged either way.</p>
+</div>
+
+<div class="box note">
+  <p class="t">Change 2 — batch colour is retained, but its meaning changes</p>
+  <p>It is no longer "here are 9 points coloured by a nuisance factor", which is ST's
+  objection, but "here are the 3 experimental units". That is a legitimate and informative use of
+  colour. Dropping the colours entirely is also fine.</p>
+</div>
+
+<div class="box note">
+  <p class="t">Change 3 — the subtitle carries the LMM statistics</p>
+  <p>Instead of the Kruskal–Wallis line. If you want to keep <code>ggbetweenstats</code> for the
+  aesthetics, call it with <code>results.subtitle = FALSE</code> on the batch means and supply your
+  own subtitle. The standalone script is simpler and avoids the <code>p.adjust.method</code>
+  inconsistency described below.</p>
+</div>
+
+<p><a href="5-figure.html">See the regenerated figure →</a></p>
+
+<h2 id="sensitivity">Sensitivity analyses to report in the supplement</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Check</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>Unequal residual variance across kits<br><code>nlme::lme(..., weights = varIdent(~1|kit))</code></td>
+    <td>LRT p = 0.003 (cfDNA), 0.12 (gDNA), 0.045 (FFPE 25), 0.002 (FFPE 150). Conclusions unchanged or <b>strengthened</b>: FFPE 25 ng omnibus goes 0.014 → 0.00034, FFPE 150 ng 9.1e−06 → 2.2e−06. Safe to report.</td></tr>
+<tr><td>Rank test on batch means</td>
+    <td>Weaker but concordant in direction. Report it as the assumption-free floor.</td></tr>
+<tr><td>Raw versus logit scale</td>
+    <td>Logit preferred: conversion rate spans 0.02 to 0.62 and residual variance tracks the mean.</td></tr>
+<tr><td>With or without the EVO cfDNA re-prep</td>
+    <td><b>This one changes the conclusion.</b> See below.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="other-figures">Apply the same fix to the other figures</h2>
+<p>The identical pseudoreplication is present in <code>plot_hsmetrics_20260512.R</code>,
+<code>plot_gcbias_20260512.R</code> and <code>FADE_artifacts_ggstats_20260610.R</code>. All three
+colour 9 points by <code>str_extract(sample, "B[1-9]")</code> and all three run
+<code>ggbetweenstats</code> on the libraries. Every one needs the same batch-level treatment.</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Metric</th><th>Suggested scale</th></tr></thead>
+<tbody>
+<tr><td>MEDIAN_TARGET_COVERAGE, background error rate</td><td>log</td></tr>
+<tr><td>PCT_OFF_BAIT, PCT_SELECTED_BASES, chimeric %, artifact rate</td><td>logit</td></tr>
+<tr><td>FOLD_80_BASE_PENALTY, GC_DROPOUT, AT_DROPOUT</td><td>raw</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="housekeeping">Housekeeping a reviewer will check</h2>
+<ul>
+  <li><code>p.adjust.method</code> is <code>"holm"</code> in
+  <code>plot_conversion_rate_20260512.R</code> and <code>FADE_artifacts_ggstats_20260610.R</code>
+  but <code>"none"</code> in <code>plot_conv-rate-STATS.R</code>. Settle on Holm, applied within
+  sample type, and state it once in the Methods.</li>
+  <li>No effect sizes are reported anywhere. The new script emits Hedges' g on the logit scale for
+  every contrast in <code>conversion_rate_batchlevel_stats_20260817.tsv</code>; the journal review
+  asks for these explicitly.</li>
+  <li><code>plot_conv-rate-STATS.R</code> holds the conversion-rate data hard-coded inline as a
+  string literal. It will silently diverge from <code>manuscript/data/</code>. Delete it, or make
+  it read the file.</li>
+  <li><code>plot_conversion_rate_20260512.R</code> line 58 still has
+  <code>setwd("~/Downloads")</code>.</li>
+</ul>
+
+<h2 id="evo">The EVO cfDNA run: decided</h2>
+
+<div class="box ok">
+  <p class="t">Resolved, 17 Aug 2026: use the first run</p>
+  <p>The January/February 2025 preparation is the one that goes into the paper. The June 2025
+  re-prep is excluded because <b>it was carried out with documented protocol errors by the
+  laboratory personnel</b>, so it is a failed preparation rather than a competing estimate.</p>
+  <p>This matches what the analysis scripts were already doing, so <b>no figure or number on this
+  site changes</b>: cfDNA omnibus F = 8.73, p = 0.0011, with 6 of 15 contrasts surviving Holm, and
+  EVO at 0.421. The script default <code>EVO_CFDNA_RUN &lt;- "orig"</code> is correct as it
+  stands.</p>
+  <p>What does change is that the choice is now a documented decision with a stated reason rather
+  than an unexplained <code>grepl()</code>. That was the substantive problem. See
+  <a href="#evo-record">what still needs recording</a> below.</p>
+</div>
+
+<p>The background, for the record. <code>Collected prep info.xlsx</code> marks the
+January/February 2025 EVO cfDNA libraries
+<code>EVO-FIRST-RUN</code>, status <b>"Will be re-prepped/re-captured"</b>, and records a full
+re-prep in June 2025 (<code>dev250624</code>, <code>dev250626.1/.2</code>, capture pool
+<code>tga250701</code>). The plotting scripts filter <code>!grepl("EVO.*-KH20250815")</code>, that
+is, they keep the first run and discard the re-prep. Read from the spreadsheet alone this looked
+like an oversight, because the sheet records an intention to re-prep and says nothing about how
+the re-prep turned out. With the laboratory history added, the filter is correct: the re-prep
+failed, so the first run is the only valid EVO cfDNA data.</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>EVO cfDNA run used</th><th class="num">EVO batch means</th><th class="num">EVO mean (SD of batch means)</th><th class="num">cfDNA omnibus</th></tr></thead>
+<tbody>
+<tr><td>First run (currently used)</td><td class="num">0.387 / 0.462 / 0.415</td><td class="num">0.421 (0.038)</td><td class="num">F = 8.73, <b>p = 0.0011</b></td></tr>
+<tr class="bad"><td>June re-prep</td><td class="num">0.248 / 0.611 / 0.600</td><td class="num">0.487 (0.206)</td><td class="num">F = 2.66, <b>p = 0.076</b></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The table shows why this mattered enough to settle explicitly. The re-prep's wild batch spread
+(0.248 against 0.611 and 0.600) inflates the pooled error term roughly five-fold, which is what
+drags the whole cfDNA panel from p = 0.001 to p = 0.076. Had the re-prep been a valid preparation,
+that spread would have been a real finding about EVO's stability at 30 ng and the paper would have
+had to report it. Since the spread is a consequence of the protocol errors, it is measurement
+failure, not kit behaviour, and including it would have been actively misleading.</p>
+
+<h3 id="evo-record">What still needs recording</h3>
+<div class="box warn">
+  <p class="t">"Prepped with mistakes" has to become specific</p>
+  <p>The justification is sound but it currently exists only as spoken lab knowledge, and nothing
+  in the repository records it. A reviewer, or you in three years, will see nine EVO libraries
+  silently absent. Three things to do:</p>
+  <ol>
+    <li><b>Write down what went wrong</b>, concretely: which step, which batches, who identified it
+    and when. One or two sentences in <code>documentation/</code> and in the prep sheet's status
+    column, not just in someone's memory.</li>
+    <li><b>Update the prep sheet.</b> It currently labels the January/February run
+    <code>EVO-FIRST-RUN</code> with status "Will be re-prepped/re-captured", which now reads
+    backwards. The June rows need a status marking them as failed and excluded.</li>
+    <li><b>Say it in the Methods</b> rather than leaving a bare <code>grepl()</code> as the only
+    trace. Suggested wording: "EVO cfDNA libraries were re-prepared in June 2025; that preparation
+    was excluded from analysis because of documented protocol deviations during library
+    preparation, and the January to February 2025 preparation was used."</li>
+  </ol>
+  <p>Do not present the re-prep as a sensitivity analysis in the supplement. A failed preparation
+  is not an alternative estimate, and showing it alongside would invite exactly the wrong
+  interpretation. Excluding it with a stated reason is the honest treatment.</p>
+</div>
+
+<p>The script default is already correct (<code>EVO_CFDNA_RUN &lt;- "orig"</code> in
+<code>program/plot_conversion_rate_batchlevel_20260817.R</code>), so nothing needs re-running.
+Add a comment there pointing at the documented reason so the next person does not have to ask.</p>
+
+<div class="pager">
+  <a href="3-statistics.html"><span>Previous</span>← The problem, quantified</a>
+  <a href="5-figure.html"><span>Next</span>New Figure 1 →</a>
+</div>
+</main>
+</div>
+</body>
+</html>

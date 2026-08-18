@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>The statistical problem, quantified — kit complexity evaluation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <div class="brand">
+    <b>Kit complexity evaluation</b>
+    <span>Design &amp; statistics review · 17 Aug 2026</span>
+  </div>
+  <div class="grp">Overview</div>
+  <ol><li><a href="index.html"><span class="n">00</span>Summary</a></li></ol>
+  <div class="grp">The study as executed</div>
+  <ol>
+    <li><a href="1-design.html"><span class="n">01</span>Experimental design</a></li>
+    <li><a href="2-confounding.html"><span class="n">02</span>Confounding &amp; defects</a></li>
+  </ol>
+  <div class="grp">Statistics</div>
+  <ol>
+    <li><a href="3a-plain-english.html"><span class="n">3a</span>In plain English</a></li>
+    <li><a class="here" href="3-statistics.html"><span class="n">03</span>The problem, quantified</a></li>
+    <li><a href="4-recommendation.html"><span class="n">04</span>Recommendation</a></li>
+    <li><a href="5-figure.html"><span class="n">05</span>New Figure 1</a></li>
+    <li><a href="6-tables.html"><span class="n">06</span>Results tables</a></li>
+  </ol>
+  <div class="grp">Manuscript</div>
+  <ol>
+    <li><a href="7-critique.html"><span class="n">07</span>Critique of the rest</a></li>
+    <li><a href="8-methods.html"><span class="n">08</span>Methods text</a></li>
+    <li><a href="9-actions.html"><span class="n">09</span>Action checklist</a></li>
+  </ol>
+  <div class="grp">Compliance</div>
+  <ol>
+    <li><a href="10-ki-standards.html"><span class="n">10</span>KI standards</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="kicker">Statistics</p>
+<h1>The statistical problem, quantified</h1>
+<p class="lede">Your supervisor's observation ("some kits clearly have batch effects, which means
+we cannot assume complete independence for all kits") is correct and measurable. Here is the
+measurement.</p>
+
+<h2 id="current">What the current analysis does</h2>
+<p><code>ggstatsplot::ggbetweenstats(type = "np", ...)</code> is a Kruskal–Wallis test on all
+libraries with a Dunn post-hoc. With 3 batches × 3 replicates it treats <b>9 libraries as 9
+independent observations</b>. They are not: the three replicates within a batch share a prep day,
+an operator, a master mix, a plate and a hybridisation pool.</p>
+
+<h2 id="icc">Measured intraclass correlation of conversion rate</h2>
+<p>Variance between batches divided by total variance, per kit × sample type.</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Sample type</th><th>Kit</th><th class="num">ICC</th><th>Sample type</th><th>Kit</th><th class="num">ICC</th></tr></thead>
+<tbody>
+<tr><td>cfDNA</td><td>KAPAON</td><td class="num"><b>0.98</b></td><td>FFPE 150</td><td>WM</td><td class="num">0.55</td></tr>
+<tr><td>gDNA</td><td>EVO</td><td class="num"><b>0.96</b></td><td>FFPE 25</td><td>KAPAON-COV</td><td class="num">0.50</td></tr>
+<tr><td>gDNA</td><td>KAPA15</td><td class="num"><b>0.91</b></td><td>FFPE 150</td><td>KAPA15</td><td class="num">0.46</td></tr>
+<tr><td>cfDNA</td><td>EVO</td><td class="num"><b>0.90</b></td><td>gDNA</td><td>KAPAON</td><td class="num">0.41</td></tr>
+<tr><td>gDNA</td><td>KAPAON-COV</td><td class="num"><b>0.84</b></td><td>FFPE 150</td><td>KAPAON-COV</td><td class="num">0.41</td></tr>
+<tr><td>FFPE 25</td><td>KAPA15</td><td class="num"><b>0.79</b></td><td>cfDNA / gDNA</td><td>WM</td><td class="num">0.35 / 0.34</td></tr>
+<tr><td>cfDNA</td><td>KAPA15</td><td class="num"><b>0.74</b></td><td>cfDNA</td><td>IL</td><td class="num">0.29</td></tr>
+<tr><td>cfDNA</td><td>TWIST</td><td class="num">0.61</td><td>FFPE 25</td><td>KAPAON</td><td class="num">0.25</td></tr>
+<tr><td>FFPE 25</td><td>KAPAON-COV</td><td class="num">0.50</td><td>FFPE 150</td><td>KAPAON</td><td class="num">0.23</td></tr>
+<tr><td></td><td></td><td class="num"></td><td>FFPE 25</td><td>EVO / WM</td><td class="num">0.16 / 0.10</td></tr>
+<tr><td></td><td></td><td class="num"></td><td>FFPE 150</td><td>EVO</td><td class="num">0.00</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="stat">
+  <div><b>0.46</b><span>median ICC across the 21 kit × sample-type strata</span></div>
+  <div><b>10/21</b><span>strata with ICC above 0.5</span></div>
+  <div><b>1.9</b><span>design effect, 1 + (3−1) × 0.46</span></div>
+  <div><b>4.7</b><span>effective sample size per kit, not 9</span></div>
+</div>
+
+<p>The ICC is not merely non-zero, it is <b>wildly heterogeneous</b>, running from 0.00
+(EVO FFPE 150 ng) to 0.98 (KAPAON cfDNA). AL's comment that "sometimes KAPA just gives poorer
+results" is visible in the data as KAPAON cfDNA batch 2 sitting at 0.20 while batches 1 and 3 sit
+at 0.32 to 0.34. The current p-values are anticonservative by roughly the design effect in
+variance terms, and by considerably more than that in the tails, which is where p-values live.</p>
+
+<h2 id="omnibus">Head-to-head: three candidate analyses</h2>
+<p>Omnibus test of the kit effect on conversion rate.</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr>
+  <th>Sample type</th>
+  <th>(a) Current<br><small>KW, 9 libraries</small></th>
+  <th>(b) Naive aggregation<br><small>KW, 3 batch means</small></th>
+  <th>(c) Recommended<br><small>batch-level mixed model</small></th>
+</tr></thead>
+<tbody>
+<tr><td>cfDNA 30 ng</td><td class="num">χ² = 45.6, p = 1.1e−08</td><td class="num">χ² = 15.4, p = 0.0089</td><td class="num">F(5, 12) = 8.7, p = 0.0011</td></tr>
+<tr><td>gDNA 150 ng</td><td class="num">χ² = 38.5, p = 8.8e−08</td><td class="num">χ² = 13.2, p = 0.010</td><td class="num">F(4, 10) = 132.8, p = 1.3e−08</td></tr>
+<tr><td>FFPE 25 ng</td><td class="num">χ² = 24.6, p = 6.1e−05</td><td class="num">χ² = 10.1, p = 0.039</td><td class="num">F(4, 10) = 4.1, p = 0.032</td></tr>
+<tr><td>FFPE 150 ng</td><td class="num">χ² = 34.0, p = 7.5e−07</td><td class="num">χ² = 12.2, p = 0.016</td><td class="num">F(4, 10) = 25.5, p = 3.2e−05</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Pairwise comparisons surviving Holm correction:</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Sample type</th><th class="num">(a) Current</th><th class="num">(b) Naive aggregation</th><th class="num">(c) Recommended</th></tr></thead>
+<tbody>
+<tr><td>cfDNA 30 ng</td><td class="num">12 / 15</td><td class="num"><b>0 / 15</b></td><td class="num">6 / 15</td></tr>
+<tr><td>gDNA 150 ng</td><td class="num">10 / 10</td><td class="num">2 / 10</td><td class="num">7 / 10</td></tr>
+<tr><td>FFPE 25 ng</td><td class="num">5 / 10</td><td class="num">0 / 10</td><td class="num">0 / 10</td></tr>
+<tr><td>FFPE 150 ng</td><td class="num">8 / 10</td><td class="num">3 / 10</td><td class="num">8 / 10</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="box decision">
+  <p class="t">The key result of this review</p>
+  <p>ST is right that the unit of analysis must be the batch. But collapsing to three points and
+  re-running a <em>rank</em> test would destroy the study. A Wilcoxon or Dunn comparison of 3
+  versus 3 has a minimum attainable p of 0.1 before any multiplicity correction, so it is not
+  merely conservative, it is <b>structurally incapable</b> of producing a significant pairwise
+  result. Option (b) loses every cfDNA pairwise finding, and it would lose them no matter how
+  large the true effect. That is not a defensible place to land.</p>
+</div>
+
+<p>Option (c) honours the aggregation and recovers the power, because it pools the batch-to-batch
+variance across the five or six kits within a sample type instead of estimating it separately for
+each pair. Error degrees of freedom go from 4 to 10 or 12.
+<a href="4-recommendation.html">The model and its justification →</a></p>
+
+<div class="pager">
+  <a href="3a-plain-english.html"><span>Previous</span>← In plain English</a>
+  <a href="4-recommendation.html"><span>Next</span>Recommendation →</a>
+</div>
+</main>
+</div>
+</body>
+</html>

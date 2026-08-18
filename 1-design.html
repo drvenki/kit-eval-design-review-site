@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Experimental design — kit complexity evaluation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <div class="brand">
+    <b>Kit complexity evaluation</b>
+    <span>Design &amp; statistics review · 17 Aug 2026</span>
+  </div>
+  <div class="grp">Overview</div>
+  <ol><li><a href="index.html"><span class="n">00</span>Summary</a></li></ol>
+  <div class="grp">The study as executed</div>
+  <ol>
+    <li><a class="here" href="1-design.html"><span class="n">01</span>Experimental design</a></li>
+    <li><a href="2-confounding.html"><span class="n">02</span>Confounding &amp; defects</a></li>
+  </ol>
+  <div class="grp">Statistics</div>
+  <ol>
+    <li><a href="3a-plain-english.html"><span class="n">3a</span>In plain English</a></li>
+    <li><a href="3-statistics.html"><span class="n">03</span>The problem, quantified</a></li>
+    <li><a href="4-recommendation.html"><span class="n">04</span>Recommendation</a></li>
+    <li><a href="5-figure.html"><span class="n">05</span>New Figure 1</a></li>
+    <li><a href="6-tables.html"><span class="n">06</span>Results tables</a></li>
+  </ol>
+  <div class="grp">Manuscript</div>
+  <ol>
+    <li><a href="7-critique.html"><span class="n">07</span>Critique of the rest</a></li>
+    <li><a href="8-methods.html"><span class="n">08</span>Methods text</a></li>
+    <li><a href="9-actions.html"><span class="n">09</span>Action checklist</a></li>
+  </ol>
+  <div class="grp">Compliance</div>
+  <ol>
+    <li><a href="10-ki-standards.html"><span class="n">10</span>KI standards</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="kicker">The study as executed</p>
+<h1>The experimental design, exactly as executed</h1>
+<p class="lede">Reconstructed from <code>manuscript/data/Collected prep info.xlsx</code> (sheet
+<code>TGA</code>, 207 library rows) and <code>manuscript/data/experiment overview.xlsx</code>.
+This is the material your supervisor asked to have written down.</p>
+
+<h2 id="factors">Factor structure</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Factor</th><th>Levels</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Sample type × input</td><td>cfDNA 30 ng, gDNA 150 ng, FFPE 25 ng, FFPE 150 ng</td>
+    <td>Analysed as four separate experiments, not crossed with kit.</td></tr>
+<tr><td>Library kit</td><td>7 total: KAPA15, KAPAON(-ENZ), KAPAON-COV, EVO, WM, TWIST, IL</td>
+    <td><b>6 kits in cfDNA, 5 in gDNA/FFPE.</b> The kit set is not the same across sample types,
+    so no kit × sample-type interaction can be fitted on the full grid.</td></tr>
+<tr><td>Preparation batch</td><td>3 per kit × sample type</td>
+    <td>Nominally three occasions. <a href="2-confounding.html#batch">Not true for all kits.</a></td></tr>
+<tr><td>Technical replicate</td><td>3 per batch</td>
+    <td>Separate wells; same DNA aliquot, day, operator, master mix, plate and capture pool.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Nominal total 7 arms × 3 × 3 = 189 analysed libraries. The prep sheet holds 207 rows,
+the extra 18 being the EVO cfDNA re-prep (9) and the IL cfDNA re-hybridisation (9).</p>
+
+<div class="box note">
+  <p class="t">Nesting</p>
+  <p>replicate&nbsp;⊂&nbsp;batch&nbsp;⊂&nbsp;(kit × sample type). Batch is <b>nested</b> in kit,
+  not crossed with it: "B1" for KAPA15 and "B1" for WM are unrelated events. The design therefore
+  carries no information with which to separate a kit effect from a day effect, except where two
+  kits happened to be prepped on the same day.</p>
+</div>
+
+<h2 id="dna">DNA sources: one pool per matrix, no biological replication</h2>
+<ul>
+  <li><b>cfDNA</b> — one pool of leftover plasma from several ProBio participants.</li>
+  <li><b>gDNA</b> — one pool from two blood donors (9610 ng total, NucleoSpin Blood Mini).</li>
+  <li><b>FFPE</b> — one pool of punches from nine anonymous blocks, 1–4 years old, extracted
+      separately and then mixed (QIAgen AllPrep FFPE DNA/RNA, 80 °C substitution).</li>
+</ul>
+<p>All replication is technical. This is legitimate for a chemistry benchmark, but it has to be
+stated: the study estimates kit performance <em>on one DNA preparation per matrix type</em>, and
+the confidence intervals do not cover donor-to-donor or block-to-block variability.</p>
+
+<h2 id="downstream">Downstream steps, which are well controlled</h2>
+<div class="box ok">
+  <p class="t">Say this in the Methods, it is a strength</p>
+  <ul>
+    <li><b>Single target-capture date</b> for the main run (<code>dev250429-*</code> hybridisation
+    pools), Twist Target Enrichment Standard hybridisation v1, and <b>capture performed by one
+    operator (VK) for every library.</b></li>
+    <li><b>Sequencing is not confounded with kit.</b> NovaSeq X, flow cells
+    <code>22YVW7LT3</code> (748 lane-records), <code>232Y53LT3</code> (126),
+    <code>232MLFLT3</code> (64), lanes 1–8. Libraries were pooled and spread across lanes.</li>
+    <li>One bioinformatic pipeline, one reference, one subsampling depth (35 M read pairs) for
+    every library.</li>
+  </ul>
+</div>
+
+<h2 id="layout">The layout as executed</h2>
+<p>Sorted by preparation date. The last column is the number of <em>distinct calendar days</em>
+on which the three batches were prepared: it should be 3 everywhere and is not.</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr>
+  <th>Kit</th><th>Sample type</th><th>Prep dates (B1 / B2 / B3)</th><th>Operator</th>
+  <th class="num">PCR</th><th>insert:adapter</th><th class="num">Days</th>
+</tr></thead>
+<tbody>
+<tr><td>KAPA15</td><td>cfDNA 30 ng</td><td>2024-11-12 / 11-29 / 12-12</td><td>VK</td><td class="num">7</td><td class="num">220 / 220 / 220</td><td class="num">3</td></tr>
+<tr><td>KAPAON</td><td>cfDNA 30 ng</td><td>2024-11-12 / 11-29 / 12-12</td><td>VK</td><td class="num">7</td><td class="num">220 / 220 / 220</td><td class="num">3</td></tr>
+<tr class="bad"><td>WM</td><td>cfDNA 30 ng</td><td>2024-12-19 / <b>2024-12-19</b> / 2025-01-09</td><td>CDM</td><td class="num">6</td><td class="num">275 / 275 / 275</td><td class="num"><b>2</b></td></tr>
+<tr class="bad"><td>EVO</td><td>cfDNA 30 ng <small>(run 1)</small></td><td>2025-01-21 / 02-18 / <b>02-18</b></td><td><b>VK / CDM / CDM</b></td><td class="num">6</td><td class="num">275 / 275 / 275</td><td class="num"><b>2</b></td></tr>
+<tr class="bad"><td>EVO</td><td>cfDNA 30 ng <small>(re-prep)</small></td><td>2025-06-24 / 06-26 / 06-26</td><td>CDM</td><td class="num">6</td><td class="num">275 / 275 / 275</td><td class="num"><b>2</b></td></tr>
+<tr><td>IL</td><td>cfDNA 30 ng</td><td>2025-02-13 / 02-14 / 03-06</td><td>VK</td><td class="num">6</td><td class="num">n/a (kit adapters)</td><td class="num">3</td></tr>
+<tr><td>TWIST</td><td>cfDNA 30 ng</td><td>2025-02-13 / 02-14 / 03-06</td><td>VK</td><td class="num">6</td><td class="num">110 / 110 / 110</td><td class="num">3</td></tr>
+<tr><td>KAPA15</td><td>gDNA 150 ng</td><td>2025-03-19 / 03-20 / 03-26</td><td>VK</td><td class="num">5</td><td class="num">58 / 59 / 61</td><td class="num">3</td></tr>
+<tr><td>KAPAON</td><td>gDNA 150 ng</td><td>2025-03-19 / 03-20 / 03-26</td><td>VK</td><td class="num">5</td><td class="num">59 / 60 / 59</td><td class="num">3</td></tr>
+<tr class="hi"><td>EVO</td><td>gDNA 150 ng</td><td>2025-03-27 / 03-31 / 04-01</td><td>CDM</td><td class="num">5</td><td class="num"><b>106 / 63 / 359</b></td><td class="num">3</td></tr>
+<tr><td>KAPAON-COV</td><td>gDNA 150 ng</td><td>2025-04-02 / 04-03 / 04-04</td><td>VK</td><td class="num">5</td><td class="num">53 / 55 / 53</td><td class="num">3</td></tr>
+<tr class="bad"><td>WM</td><td>gDNA 150 ng</td><td><b>2025-04-02 / 04-02 / 04-02</b></td><td>CDM</td><td class="num">5</td><td class="num">85 / 87 / 88</td><td class="num"><b>1</b></td></tr>
+<tr class="hi"><td>EVO</td><td>FFPE 25 &amp; 150 ng</td><td>2025-03-27 / 03-31 / 04-01</td><td>CDM</td><td class="num">10</td><td class="num"><b>≈100 / ≈57 / ≈370</b></td><td class="num">3</td></tr>
+<tr class="bad"><td>WM</td><td>FFPE 25 &amp; 150 ng</td><td><b>2025-04-02 / 04-02 / 04-02</b></td><td>CDM</td><td class="num">9</td><td class="num">stable</td><td class="num"><b>1</b></td></tr>
+<tr><td>KAPA15</td><td>FFPE 25 &amp; 150 ng</td><td>2025-04-10 / 04-11 / 04-14</td><td>VK</td><td class="num">9</td><td class="num">stable</td><td class="num">3</td></tr>
+<tr><td>KAPAON</td><td>FFPE 25 &amp; 150 ng</td><td>2025-04-10 / 04-11 / 04-14</td><td>VK</td><td class="num">9</td><td class="num">stable</td><td class="num">3</td></tr>
+<tr><td>KAPAON-COV</td><td>FFPE 25 &amp; 150 ng</td><td>2025-04-10 / 04-11 / 04-14</td><td>VK</td><td class="num">9</td><td class="num">stable</td><td class="num">3</td></tr>
+</tbody>
+</table>
+</div>
+<p><small>Red rows: batches that are not three separate days. Blue rows: adapter:insert ratio not
+held constant across batches. Machine-readable version:
+<code>manuscript/data/design_layout.tsv</code>.</small></p>
+
+<h2 id="pools">Hybridisation pools</h2>
+<p>Capture pool is <b>aliased with preparation batch</b> for most kits, one pool per batch
+(EVO FFPE/gDNA → E3 / F3 / G3; WM FFPE/gDNA → B3 / C3 / D3; KAPA15 FFPE → F1 / A2 / D2).
+For modelling this is harmless: the batch random effect absorbs prep day and capture pool
+together as one nuisance level. It does mean you cannot attribute a batch effect to one or the
+other, which is worth one sentence in the Methods. One record
+(KAPAON-COV gDNA B3) has <code>#N/A</code> for the pool.</p>
+
+<h2 id="reprep">Repeats</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Set</th><th>Label in prep sheet</th><th>Status</th><th>Repeat</th><th>Used in figures?</th></tr></thead>
+<tbody>
+<tr><td>EVO cfDNA 30 ng</td><td><code>EVO-FIRST-RUN</code></td><td>Will be re-prepped/re-captured</td>
+    <td>Full re-prep, Jun 2025 (<code>dev250624</code>, <code>dev250626.1/.2</code>, pool <code>tga250701</code>)</td>
+    <td class="num"><span class="pill green">first run kept</span></td></tr>
+<tr><td>IL cfDNA 30 ng</td><td><code>IL-INCORRECT-BLOCKERS</code></td><td>Will be re-captured</td>
+    <td>Re-hybridisation, same libraries, pool <code>tga250701</code></td>
+    <td class="num"><span class="pill green">re-hyb kept</span></td></tr>
+</tbody>
+</table>
+</div>
+<p>The two filters point in opposite directions, which looked inconsistent until the laboratory
+history was supplied: the June EVO re-prep was carried out with protocol errors and is a failed
+preparation, so the first run is the only valid EVO cfDNA data, whereas the IL re-hybridisation
+corrected a known blocker error and is the valid one. Both reasons need to reach the Methods. See
+<a href="4-recommendation.html#evo">the EVO decision</a>. Note that the prep sheet's status column
+still reads "Will be re-prepped/re-captured" for the first run, which now reads backwards and
+should be corrected.</p>
+
+<div class="pager">
+  <a href="index.html"><span>Previous</span>← Summary</a>
+  <a href="2-confounding.html"><span>Next</span>Confounding &amp; defects →</a>
+</div>
+</main>
+</div>
+</body>
+</html>

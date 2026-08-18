@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>In plain English — kit complexity evaluation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <div class="brand">
+    <b>Kit complexity evaluation</b>
+    <span>Design &amp; statistics review · 17 Aug 2026</span>
+  </div>
+  <div class="grp">Overview</div>
+  <ol><li><a href="index.html"><span class="n">00</span>Summary</a></li></ol>
+  <div class="grp">The study as executed</div>
+  <ol>
+    <li><a href="1-design.html"><span class="n">01</span>Experimental design</a></li>
+    <li><a href="2-confounding.html"><span class="n">02</span>Confounding &amp; defects</a></li>
+  </ol>
+  <div class="grp">Statistics</div>
+  <ol>
+    <li><a class="here" href="3a-plain-english.html"><span class="n">3a</span>In plain English</a></li>
+    <li><a href="3-statistics.html"><span class="n">03</span>The problem, quantified</a></li>
+    <li><a href="4-recommendation.html"><span class="n">04</span>Recommendation</a></li>
+    <li><a href="5-figure.html"><span class="n">05</span>New Figure 1</a></li>
+    <li><a href="6-tables.html"><span class="n">06</span>Results tables</a></li>
+  </ol>
+  <div class="grp">Manuscript</div>
+  <ol>
+    <li><a href="7-critique.html"><span class="n">07</span>Critique of the rest</a></li>
+    <li><a href="8-methods.html"><span class="n">08</span>Methods text</a></li>
+    <li><a href="9-actions.html"><span class="n">09</span>Action checklist</a></li>
+  </ol>
+  <div class="grp">Compliance</div>
+  <ol>
+    <li><a href="10-ki-standards.html"><span class="n">10</span>KI standards</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="kicker">Statistics</p>
+<h1>In plain English</h1>
+<p class="lede">The whole statistical argument with no statistics in it. Written to be read by
+co-authors, and to be handed to anyone who asks why the figures changed and why we did not simply
+do what was suggested in the meeting.</p>
+
+<h2 id="lab">Start with what actually happened at the bench</h2>
+<p>For each kit we made nine libraries. But we did not make nine libraries nine separate times. We
+went into the lab on three occasions, and on each occasion we made three libraries side by side.</p>
+<p>Those three side-by-side libraries share almost everything. Same day. Same person. Same tube of
+master mix. Same plate. Same thermocycler run. Same capture pool afterwards. The only thing that
+differs between them is which well they sat in.</p>
+<div class="box note">
+  <p class="t">So what do the three side-by-side libraries actually tell you?</p>
+  <p>They tell you how precisely we can pipette. They do <b>not</b> tell you, three separate times,
+  how well the kit works. If the enzyme was slightly past its best that morning, or the room was
+  warm, or the bead cleanup ran a minute long, all three move together in the same direction. They
+  are three views of one event, not three events.</p>
+</div>
+<p>The honest count of independent evidence per kit is therefore <b>three</b>, not nine. Three
+occasions. In statistical language, the "experimental unit" is the preparation batch, not the
+library. That is precisely the point ST made, and it is correct.</p>
+
+<h2 id="anticonservative">Why the current figures overstate their case</h2>
+<p>The test currently printed on the figures (Kruskal-Wallis, with Dunn for the pairwise
+comparisons) was handed nine numbers per kit and told they were nine independent measurements. It
+believed us.</p>
+<p>Every statistical test works the same way underneath. It compares how far apart the kits are
+against how much the numbers naturally bounce around, and it becomes more confident the more
+independent measurements you give it. Give it nine when you really have about five, and it becomes
+more confident than the data justify. The p-values it prints come out <b>too small</b>.</p>
+<p>That is what "anticonservative" means. It is not a rounding problem. It means the figures are
+claiming a level of certainty the experiment cannot support, and some of the differences currently
+marked as significant may be nothing more than the difference between a Tuesday and a Thursday.</p>
+
+<div class="box warn">
+  <p class="t">And we can measure exactly how bad it is</p>
+  <p>There is a number for "how much of the wobble is day-to-day rather than well-to-well". Across
+  our 21 kit and sample-type combinations it averages about <b>half</b>. For KAPA HyperPrep on
+  cfDNA it is 0.98, meaning the three wells on a given day are nearly identical to each other while
+  the three days differ substantially. That is AL's observation ("sometimes KAPA just gives
+  poorer results") appearing as a number: batch 2 came in at 0.20 while batches 1 and 3 were at
+  0.32 and 0.34.</p>
+  <p>Working through the arithmetic, nine libraries per kit carry about as much information as
+  <b>4.7</b> genuinely independent ones. So the current analysis is running on roughly half the
+  evidence it thinks it has.</p>
+</div>
+
+<p>None of this means the study is wrong. The kits really do differ. It means the current
+<em>p-values</em> are not defensible, and a statistical reviewer will say so.</p>
+
+<h2 id="naive">The obvious fix, and why the literal version collapses</h2>
+<p>The suggestion from the meeting was: average the three side-by-side libraries into one number
+per occasion, so each kit becomes three points instead of nine, then run the same kind of test as
+before. The first half of that is exactly right. The second half is where it falls apart, and it
+is worth understanding why, because the reason is not a matter of opinion.</p>
+
+<h3>What the current test does with your numbers</h3>
+<p>Kruskal-Wallis and Dunn are <em>rank</em> tests. A rank test deliberately throws away the actual
+values and keeps only the ordering. It does not care that one kit converted 42 % and another
+converted 24 %; it only cares that the first was higher. This is normally a virtue, because it
+makes no assumptions about the shape of the data.</p>
+<p>But it means the only evidence a rank test can ever use is <b>how the points interleave</b>.</p>
+
+<h3>Now count what is available with three points each</h3>
+<p>Suppose we compare two kits, each with three batch averages. Line all six numbers up from lowest
+to highest and ask the only question a rank test can ask: did one kit's three points land above the
+other kit's three points?</p>
+<p>There are exactly <b>20 possible ways</b> to arrange three A's and three B's in six positions.
+Only one of those twenty is "all three A's above all three B's". So if the kits were truly
+identical and we shuffled at random, we would see perfect separation one time in twenty, which is
+a probability of 0.05 in one direction, or <b>0.1 counting both directions</b>.</p>
+
+<div class="box decision">
+  <p class="t">This is the part that matters</p>
+  <p>0.1 is the <b>best possible p-value</b> from that comparison. Not the typical one. The best
+  one, achieved when the separation is perfect and every single point of one kit beats every single
+  point of the other. If one kit were a hundred times better than the other, with no overlap
+  whatsoever, the answer would still be 0.1.</p>
+  <p>And 0.1 is already above the 0.05 threshold before we have done anything else. Then, because
+  we make fifteen kit comparisons within cfDNA, we have to correct for multiple testing, which
+  makes every p-value larger still. Nothing can survive. That is why the naive version returns
+  <b>zero significant results out of fifteen</b> in cfDNA, and it would return zero no matter what
+  the kits did.</p>
+</div>
+
+<p>So the distinction to hold on to is this. A <b>conservative</b> test is cautious: it demands
+strong evidence, but if the effect is big enough it will still find it. This is not conservative.
+It is a ruler marked only in metres being used to measure the width of a finger. The instrument has
+run out of resolution before it ever looks at the sample. We would not be reporting "we looked
+carefully and found nothing"; we would be reporting "we used a method that could not have found
+anything".</p>
+<p><small>A technical footnote for completeness: the software will sometimes still print a number
+below 0.1, because Dunn's test uses a mathematical shortcut that assumes larger groups than we
+have. Those smaller numbers are artefacts of the shortcut, not evidence. The exact calculation
+above is the honest limit.</small></p>
+
+<h2 id="fix">The repair: borrow the noise estimate, not the answer</h2>
+<p>Here is the thing the naive version wastes. When we compare two kits using only their own three
+points each, we are also forced to work out "how much do these numbers normally bounce around from
+day to day?" from those same six numbers. Six numbers is a terrible basis for that judgement.</p>
+<p>Think of estimating someone's typical commute time from three mornings. You get a number, but
+you have no idea how reliable it is, so you are forced to be extremely cautious about concluding
+anything from a fourth morning that looks unusual.</p>
+
+<div class="box ok">
+  <p class="t">The insight</p>
+  <p>Day-to-day wobble is mostly a property of <b>the process</b>, not of the individual kit.
+  Preparing a sequencing library on a Tuesday rather than a Thursday introduces roughly the same
+  amount of variation whichever kit is in the tube.</p>
+  <p>So instead of asking "how much does KAPA bounce around between days?" using KAPA's three
+  numbers alone, we ask "how much do library preparations in this lab bounce around between days?"
+  using all five or six kits' numbers together, which is fifteen to eighteen numbers.</p>
+</div>
+
+<p>Now the estimate of the background noise is solid, and because it is solid we no longer have to
+be paranoid about it. Real differences become detectable again. This is the same reasoning as
+judging whether a runner improved: three of their own races barely tell you their normal
+variability, but if you know the typical race-to-race variability for that event, you can say
+confidently that a two second improvement is real.</p>
+<p>In the technical write-up this shows up as "degrees of freedom going from 4 to 10 or 12".
+Degrees of freedom is simply a count of how much independent information you have for estimating
+that background noise. Comparing two kits in isolation on three batches each leaves about 4. Pooling
+across a whole sample type takes it to 10 with five kits, or 12 with the six in cfDNA. Going from 4
+to 12 is the difference between a shaky estimate and a trustworthy one, and it is the entire reason
+the corrected analysis recovers most of the lost power.</p>
+<p>The model doing this bookkeeping is called a <em>mixed</em> model, because it holds two kinds of
+variation at once: the kit differences we care about, and the batch-to-batch variation we have to
+account for but are not interested in. It also copes correctly with the fact that a few groups have
+eight libraries rather than nine, which a plain average-then-test approach quietly mishandles.</p>
+
+<h2 id="honours">What this does not do</h2>
+<div class="box ok">
+  <p class="t">It does not smuggle the nine libraries back in</p>
+  <p>This is the question ST should ask, and the answer is clean. The comparison between kits is
+  performed on the <b>three batch averages</b>, exactly as requested. "Three points become one
+  point" is honoured precisely. The nine libraries contribute one thing only: they tell us how
+  precisely each of those three averages was measured. They never act as independent evidence about
+  the kit.</p>
+  <p>We verified this arithmetically. The full model gives F = 8.73 for cfDNA. Simply averaging to
+  three points and running a plain analysis of variance on those three points gives F = 8.70. They
+  are the same test. The model is just the bookkeeping that also lets us report the batch effect
+  rather than hide it.</p>
+</div>
+
+<h2 id="results">What it looks like on our data</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Approach</th><th>cfDNA pairwise results</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr class="bad"><td>Current figures: rank test on 9 libraries</td><td class="num">12 of 15 significant</td>
+    <td>Overconfident. Treats pipetting precision as independent evidence.</td></tr>
+<tr class="bad"><td>Naive fix: rank test on 3 batch averages</td><td class="num">0 of 15 significant</td>
+    <td>Structurally incapable. Would return zero regardless of the truth.</td></tr>
+<tr class="good"><td>Recommended: model on 3 batch averages, pooled noise estimate</td><td class="num">6 of 15 significant</td>
+    <td>Honest. The six that survive are the large, real differences.</td></tr>
+</tbody>
+</table>
+</div>
+<p>The six that survive in cfDNA are the ones you would want to survive: EVO and Watchmaker each
+clearly beat KAPA HyperPrep, by roughly 1.7-fold. The ones that disappear are the close calls that
+were never really distinguishable. In gDNA the recommended approach keeps 7 of 10, and in FFPE
+150 ng it keeps 8 of 10, which is actually more than the naive fix and nearly as many as the
+overconfident original.</p>
+<p>FFPE 25 ng is the exception, and it is worth being upfront about it: nothing survives there under
+the corrected analysis. KAPAON still has the highest mean and the ordering matches FFPE 150 ng, but
+the batch-to-batch variation in that arm is simply too large to support a claim about any individual
+pair. Saying so is better than being caught having claimed otherwise.</p>
+
+<h2 id="assumptions">Finally, the assumption question that was raised</h2>
+<p>The meeting note said aggregating is acceptable "if we assume there is no difference between the
+operators or the dates". Those two are worth separating, because they have different answers.</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th></th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><b>Dates</b></td>
+    <td>We no longer need to assume this. The corrected analysis does not assume the days are
+    interchangeable; it <b>measures</b> how much the days differ, uses that as the yardstick, and
+    prints it on the figure. ST's concern that "we cannot assume complete independence for all
+    kits" is not brushed aside, it is the quantity the method is built around.</td></tr>
+<tr class="bad"><td><b>Operators</b></td>
+    <td>This one is a genuine and permanent limitation, and no choice of statistical test changes
+    it. CDM prepared EVO and Watchmaker; VK prepared the rest. Because no kit was
+    prepared by both, there is no comparison anywhere in this dataset that could separate an
+    operator effect from a kit effect. We cannot test it, so we should state it plainly and show
+    the operator-to-operator reproducibility data from routine production in the supplement,
+    without waiting for a reviewer to ask.
+    <a href="2-confounding.html#operator">Detail</a></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="box note">
+  <p class="t">The one-paragraph version, if you need to summarise it in a meeting</p>
+  <p>We have three real experiments per kit, not nine, so the current p-values are too optimistic
+  and must change. But averaging to three points and re-running the same rank test cannot work: with
+  three versus three, the best achievable p-value is 0.1 even for a perfect result, so nothing could
+  ever come out significant. The fix is to compare the three batch averages, exactly as asked, while
+  estimating the day-to-day noise from all the kits together instead of from each pair separately.
+  That is a standard mixed model, it gives mathematically the same comparison as averaging to three
+  points, and it restores the ability to detect the differences that are genuinely there.</p>
+</div>
+
+<div class="pager">
+  <a href="2-confounding.html"><span>Previous</span>← Confounding &amp; defects</a>
+  <a href="3-statistics.html"><span>Next</span>The problem, quantified →</a>
+</div>
+</main>
+</div>
+</body>
+</html>

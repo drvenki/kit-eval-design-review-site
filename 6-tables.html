@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Results tables — kit complexity evaluation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <div class="brand">
+    <b>Kit complexity evaluation</b>
+    <span>Design &amp; statistics review · 17 Aug 2026</span>
+  </div>
+  <div class="grp">Overview</div>
+  <ol><li><a href="index.html"><span class="n">00</span>Summary</a></li></ol>
+  <div class="grp">The study as executed</div>
+  <ol>
+    <li><a href="1-design.html"><span class="n">01</span>Experimental design</a></li>
+    <li><a href="2-confounding.html"><span class="n">02</span>Confounding &amp; defects</a></li>
+  </ol>
+  <div class="grp">Statistics</div>
+  <ol>
+    <li><a href="3a-plain-english.html"><span class="n">3a</span>In plain English</a></li>
+    <li><a href="3-statistics.html"><span class="n">03</span>The problem, quantified</a></li>
+    <li><a href="4-recommendation.html"><span class="n">04</span>Recommendation</a></li>
+    <li><a href="5-figure.html"><span class="n">05</span>New Figure 1</a></li>
+    <li><a class="here" href="6-tables.html"><span class="n">06</span>Results tables</a></li>
+  </ol>
+  <div class="grp">Manuscript</div>
+  <ol>
+    <li><a href="7-critique.html"><span class="n">07</span>Critique of the rest</a></li>
+    <li><a href="8-methods.html"><span class="n">08</span>Methods text</a></li>
+    <li><a href="9-actions.html"><span class="n">09</span>Action checklist</a></li>
+  </ol>
+  <div class="grp">Compliance</div>
+  <ol>
+    <li><a href="10-ki-standards.html"><span class="n">10</span>KI standards</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="kicker">Statistics</p>
+<h1>Results tables</h1>
+<p class="lede">Every number the journal review asks for, recomputed under the batch-level model.
+This is the raw material for Table 1 and for the Results text. Rows in green survive Holm
+correction within their sample type.</p>
+
+<h2 id="descriptives">Per kit: mean, SD and n</h2>
+<p>Mean of the three batch means, with the SD of those three batch means. The n column is the
+number of libraries behind them, which is 8 in six cases rather than 9.</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Sample type</th><th>Kit</th><th class="num">Batches</th><th class="num">Libraries</th><th class="num">Conversion rate</th><th class="num">SD (batch means)</th><th class="num">Between-batch CV</th></tr></thead>
+<tbody>
+<tr><td rowspan="6">cfDNA 30 ng</td><td>EVO</td><td class="num">3</td><td class="num">9</td><td class="num">0.4212</td><td class="num">0.0379</td><td class="num">9.0 %</td></tr>
+<tr class="bad"><td>WM</td><td class="num">3</td><td class="num">8</td><td class="num">0.4092</td><td class="num">0.0116</td><td class="num">2.8 † %</td></tr>
+<tr><td>IL</td><td class="num">3</td><td class="num">9</td><td class="num">0.3573</td><td class="num">0.0081</td><td class="num">2.3 %</td></tr>
+<tr><td>TWIST</td><td class="num">3</td><td class="num">9</td><td class="num">0.3563</td><td class="num">0.0068</td><td class="num">1.9 %</td></tr>
+<tr class="bad"><td>KAPAON</td><td class="num">3</td><td class="num">8</td><td class="num">0.2902</td><td class="num">0.0722</td><td class="num">25.4 %</td></tr>
+<tr><td>KAPA15</td><td class="num">3</td><td class="num">9</td><td class="num">0.2417</td><td class="num">0.0393</td><td class="num">16.3 %</td></tr>
+<tr><td rowspan="5">gDNA 150 ng</td><td>WM</td><td class="num">3</td><td class="num">9</td><td class="num">0.2077</td><td class="num">0.0048</td><td class="num">2.3 † %</td></tr>
+<tr><td>KAPAON</td><td class="num">3</td><td class="num">9</td><td class="num">0.1922</td><td class="num">0.0028</td><td class="num">1.4 %</td></tr>
+<tr class="bad"><td>EVO</td><td class="num">3</td><td class="num">8</td><td class="num">0.1625</td><td class="num">0.0212</td><td class="num">13.0 %</td></tr>
+<tr><td>KAPA15</td><td class="num">3</td><td class="num">9</td><td class="num">0.1374</td><td class="num">0.0183</td><td class="num">13.3 %</td></tr>
+<tr class="bad"><td>KAPAON-COV</td><td class="num">3</td><td class="num">8</td><td class="num">0.0387</td><td class="num">0.0046</td><td class="num">12.0 %</td></tr>
+<tr><td rowspan="5">FFPE 25 ng</td><td>KAPAON</td><td class="num">3</td><td class="num">9</td><td class="num">0.1237</td><td class="num">0.0263</td><td class="num">21.3 %</td></tr>
+<tr><td>WM</td><td class="num">3</td><td class="num">9</td><td class="num">0.0825</td><td class="num">0.0070</td><td class="num">8.5 † %</td></tr>
+<tr><td>KAPA15</td><td class="num">3</td><td class="num">9</td><td class="num">0.0629</td><td class="num">0.0243</td><td class="num">38.5 %</td></tr>
+<tr class="bad"><td>KAPAON-COV</td><td class="num">3</td><td class="num">8</td><td class="num">0.0597</td><td class="num">0.0223</td><td class="num">38.4 %</td></tr>
+<tr class="bad"><td>EVO</td><td class="num">3</td><td class="num">8</td><td class="num">0.0536</td><td class="num">0.0068</td><td class="num">12.7 %</td></tr>
+<tr><td rowspan="5">FFPE 150 ng</td><td>KAPAON</td><td class="num">3</td><td class="num">9</td><td class="num">0.0496</td><td class="num">0.0058</td><td class="num">11.6 %</td></tr>
+<tr><td>WM</td><td class="num">3</td><td class="num">9</td><td class="num">0.0325</td><td class="num">0.0024</td><td class="num">7.4 † %</td></tr>
+<tr><td>KAPA15</td><td class="num">3</td><td class="num">9</td><td class="num">0.0316</td><td class="num">0.0021</td><td class="num">6.6 %</td></tr>
+<tr><td>KAPAON-COV</td><td class="num">3</td><td class="num">9</td><td class="num">0.0236</td><td class="num">0.0051</td><td class="num">21.6 %</td></tr>
+<tr class="bad"><td>EVO</td><td class="num">3</td><td class="num">8</td><td class="num">0.0195</td><td class="num">0.0012</td><td class="num">6.0 %</td></tr>
+</tbody>
+</table>
+</div>
+<p><small>Red rows: fewer than 9 libraries. † batches are same-day plates, not separate days, so the CV is not comparable with the other kits. Source: <code>manuscript/data/conversion_rate_batchlevel_descriptives_20260817.tsv</code>.</small></p>
+<h2 id="omnibus">Omnibus tests and variance components</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Sample type</th><th class="num">F</th><th class="num">df</th><th class="num">p</th><th class="num">SD between batches</th><th class="num">SD within batch</th><th class="num">ICC</th></tr></thead>
+<tbody>
+<tr><td>cfDNA 30 ng</td><td class="num">8.73</td><td class="num">5,12</td><td class="num">0.00109</td><td class="num">0.185</td><td class="num">0.064</td><td class="num">0.89</td></tr>
+<tr><td>gDNA 150 ng</td><td class="num">132.75</td><td class="num">4,10</td><td class="num">1.3e-08</td><td class="num">0.113</td><td class="num">0.037</td><td class="num">0.9</td></tr>
+<tr><td>FFPE 25 ng</td><td class="num">4.1</td><td class="num">4,10</td><td class="num">0.0322</td><td class="num">0.291</td><td class="num">0.251</td><td class="num">0.57</td></tr>
+<tr><td>FFPE 150 ng</td><td class="num">25.45</td><td class="num">4,10</td><td class="num">3.2e-05</td><td class="num">0.101</td><td class="num">0.129</td><td class="num">0.38</td></tr>
+</tbody>
+</table>
+</div>
+<p><small>Kenward-Roger F test from <code>lmer(logit(y) ~ kit + (1 | kit:batch))</code>. SDs are on the logit scale.</small></p>
+<h2 id="contrasts">All 45 pairwise contrasts</h2>
+<p>Difference on the logit scale, Hedges' g, unadjusted p and Holm-adjusted p within sample type. A positive difference means the first kit is higher.</p>
+<h3 id="cfdna">cfDNA 30 ng <small>(6 of 15 survive Holm)</small></h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Contrast</th><th class="num">Δ logit</th><th class="num">Hedges' g</th><th class="num">p</th><th class="num">p (Holm)</th></tr></thead>
+<tbody>
+<tr class="good"><td>KAPA15 vs EVO</td><td class="num">-0.835</td><td class="num">-4.13</td><td class="num">0.00016</td><td class="num"><b>0.00241</b></td></tr>
+<tr class="good"><td>KAPA15 vs WM</td><td class="num">-0.786</td><td class="num">-3.89</td><td class="num">0.00027</td><td class="num"><b>0.00376</b></td></tr>
+<tr class="good"><td>KAPAON vs EVO</td><td class="num">-0.596</td><td class="num">-2.94</td><td class="num">0.0023</td><td class="num"><b>0.0299</b></td></tr>
+<tr class="good"><td>KAPA15 vs IL</td><td class="num">-0.567</td><td class="num">-2.80</td><td class="num">0.00324</td><td class="num"><b>0.0389</b></td></tr>
+<tr class="good"><td>KAPA15 vs TWIST</td><td class="num">-0.562</td><td class="num">-2.78</td><td class="num">0.00341</td><td class="num"><b>0.0389</b></td></tr>
+<tr class="good"><td>KAPAON vs WM</td><td class="num">-0.547</td><td class="num">-2.71</td><td class="num">0.00408</td><td class="num"><b>0.0408</b></td></tr>
+<tr><td>KAPAON vs IL</td><td class="num">-0.328</td><td class="num">-1.62</td><td class="num">0.0556</td><td class="num">0.5</td></tr>
+<tr><td>KAPAON vs TWIST</td><td class="num">-0.323</td><td class="num">-1.60</td><td class="num">0.0584</td><td class="num">0.5</td></tr>
+<tr><td>EVO vs IL</td><td class="num">+0.268</td><td class="num">+1.32</td><td class="num">0.109</td><td class="num">0.726</td></tr>
+<tr><td>EVO vs TWIST</td><td class="num">+0.272</td><td class="num">+1.35</td><td class="num">0.104</td><td class="num">0.726</td></tr>
+<tr><td>KAPA15 vs KAPAON</td><td class="num">-0.239</td><td class="num">-1.18</td><td class="num">0.148</td><td class="num">0.742</td></tr>
+<tr><td>IL vs WM</td><td class="num">-0.220</td><td class="num">-1.09</td><td class="num">0.181</td><td class="num">0.742</td></tr>
+<tr><td>TWIST vs WM</td><td class="num">-0.224</td><td class="num">-1.11</td><td class="num">0.173</td><td class="num">0.742</td></tr>
+<tr><td>IL vs TWIST</td><td class="num">+0.004</td><td class="num">+0.02</td><td class="num">0.978</td><td class="num">1</td></tr>
+<tr><td>EVO vs WM</td><td class="num">+0.048</td><td class="num">+0.24</td><td class="num">0.76</td><td class="num">1</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="gdna">gDNA 150 ng <small>(7 of 10 survive Holm)</small></h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Contrast</th><th class="num">Δ logit</th><th class="num">Hedges' g</th><th class="num">p</th><th class="num">p (Holm)</th></tr></thead>
+<tbody>
+<tr class="good"><td>KAPAON-COV vs WM</td><td class="num">-1.879</td><td class="num">-15.13</td><td class="num">2.1e-09</td><td class="num"><b>2.1e-08</b></td></tr>
+<tr class="good"><td>KAPAON vs KAPAON-COV</td><td class="num">+1.782</td><td class="num">+14.36</td><td class="num">3.5e-09</td><td class="num"><b>3.1e-08</b></td></tr>
+<tr class="good"><td>KAPAON-COV vs EVO</td><td class="num">-1.573</td><td class="num">-12.67</td><td class="num">1.2e-08</td><td class="num"><b>9.3e-08</b></td></tr>
+<tr class="good"><td>KAPA15 vs KAPAON-COV</td><td class="num">+1.375</td><td class="num">+11.07</td><td class="num">4.3e-08</td><td class="num"><b>3.0e-07</b></td></tr>
+<tr class="good"><td>KAPA15 vs WM</td><td class="num">-0.504</td><td class="num">-4.06</td><td class="num">0.00031</td><td class="num"><b>0.00184</b></td></tr>
+<tr class="good"><td>KAPA15 vs KAPAON</td><td class="num">-0.408</td><td class="num">-3.28</td><td class="num">0.00143</td><td class="num"><b>0.00714</b></td></tr>
+<tr class="good"><td>EVO vs WM</td><td class="num">-0.306</td><td class="num">-2.47</td><td class="num">0.00842</td><td class="num"><b>0.0337</b></td></tr>
+<tr><td>KAPA15 vs EVO</td><td class="num">-0.198</td><td class="num">-1.60</td><td class="num">0.0603</td><td class="num">0.147</td></tr>
+<tr><td>KAPAON vs EVO</td><td class="num">+0.210</td><td class="num">+1.69</td><td class="num">0.049</td><td class="num">0.147</td></tr>
+<tr><td>KAPAON vs WM</td><td class="num">-0.096</td><td class="num">-0.78</td><td class="num">0.327</td><td class="num">0.327</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="ffpe25">FFPE 25 ng <small>(0 of 10 survive Holm)</small></h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Contrast</th><th class="num">Δ logit</th><th class="num">Hedges' g</th><th class="num">p</th><th class="num">p (Holm)</th></tr></thead>
+<tbody>
+<tr><td>KAPAON vs EVO</td><td class="num">+0.894</td><td class="num">+2.54</td><td class="num">0.00712</td><td class="num">0.0712</td></tr>
+<tr><td>KAPAON vs KAPAON-COV</td><td class="num">+0.855</td><td class="num">+2.43</td><td class="num">0.00911</td><td class="num">0.082</td></tr>
+<tr><td>KAPA15 vs KAPAON</td><td class="num">-0.794</td><td class="num">-2.26</td><td class="num">0.0135</td><td class="num">0.108</td></tr>
+<tr><td>EVO vs WM</td><td class="num">-0.468</td><td class="num">-1.33</td><td class="num">0.108</td><td class="num">0.757</td></tr>
+<tr><td>KAPA15 vs WM</td><td class="num">-0.368</td><td class="num">-1.05</td><td class="num">0.195</td><td class="num">0.82</td></tr>
+<tr><td>KAPAON vs WM</td><td class="num">+0.426</td><td class="num">+1.21</td><td class="num">0.139</td><td class="num">0.82</td></tr>
+<tr><td>KAPAON-COV vs WM</td><td class="num">-0.429</td><td class="num">-1.22</td><td class="num">0.137</td><td class="num">0.82</td></tr>
+<tr><td>KAPA15 vs KAPAON-COV</td><td class="num">+0.061</td><td class="num">+0.17</td><td class="num">0.823</td><td class="num">1</td></tr>
+<tr><td>KAPA15 vs EVO</td><td class="num">+0.100</td><td class="num">+0.28</td><td class="num">0.715</td><td class="num">1</td></tr>
+<tr><td>KAPAON-COV vs EVO</td><td class="num">+0.039</td><td class="num">+0.11</td><td class="num">0.887</td><td class="num">1</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="ffpe150">FFPE 150 ng <small>(8 of 10 survive Holm)</small></h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Contrast</th><th class="num">Δ logit</th><th class="num">Hedges' g</th><th class="num">p</th><th class="num">p (Holm)</th></tr></thead>
+<tbody>
+<tr class="good"><td>KAPAON vs EVO</td><td class="num">+0.960</td><td class="num">+7.08</td><td class="num">2.8e-06</td><td class="num"><b>2.8e-05</b></td></tr>
+<tr class="good"><td>KAPAON vs KAPAON-COV</td><td class="num">+0.790</td><td class="num">+5.83</td><td class="num">1.6e-05</td><td class="num"><b>0.00014</b></td></tr>
+<tr class="good"><td>EVO vs WM</td><td class="num">-0.527</td><td class="num">-3.88</td><td class="num">0.00043</td><td class="num"><b>0.00344</b></td></tr>
+<tr class="good"><td>KAPA15 vs EVO</td><td class="num">+0.498</td><td class="num">+3.67</td><td class="num">0.00065</td><td class="num"><b>0.00457</b></td></tr>
+<tr class="good"><td>KAPA15 vs KAPAON</td><td class="num">-0.463</td><td class="num">-3.41</td><td class="num">0.0011</td><td class="num"><b>0.0066</b></td></tr>
+<tr class="good"><td>KAPAON vs WM</td><td class="num">+0.433</td><td class="num">+3.20</td><td class="num">0.00171</td><td class="num"><b>0.00857</b></td></tr>
+<tr class="good"><td>KAPAON-COV vs WM</td><td class="num">-0.357</td><td class="num">-2.63</td><td class="num">0.00584</td><td class="num"><b>0.0233</b></td></tr>
+<tr class="good"><td>KAPA15 vs KAPAON-COV</td><td class="num">+0.328</td><td class="num">+2.42</td><td class="num">0.00942</td><td class="num"><b>0.0283</b></td></tr>
+<tr><td>KAPAON-COV vs EVO</td><td class="num">+0.170</td><td class="num">+1.25</td><td class="num">0.127</td><td class="num">0.254</td></tr>
+<tr><td>KAPA15 vs WM</td><td class="num">-0.029</td><td class="num">-0.21</td><td class="num">0.782</td><td class="num">0.782</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="box warn">
+  <p class="t">FFPE 25 ng carries no pairwise claim</p>
+  <p>The omnibus is significant at p = 0.032, but no contrast survives correction. KAPAON has the
+  highest mean (0.124) and the ordering matches FFPE 150 ng, yet the batch variance is too large to
+  support a pairwise statement. Report it as "consistent in direction with the 150 ng panel but not
+  individually significant", and resist quoting the uncorrected p-values.</p>
+</div>
+
+<h2 id="table1">Suggested Table 1 for the manuscript</h2>
+<p>The journal allows six main figures and tables combined, and the current plan is five figures
+with no table. <b>Table 1 should be the design table</b>: kit × sample type × number of batches ×
+number of libraries × operator × prep dates × PCR cycles × adapter:insert ratio. It answers most
+of the review's missing-data list in one object, and it is exactly what your supervisor is asking
+to have written down. The raw material is on the
+<a href="1-design.html#layout">experimental design page</a> and in
+<code>manuscript/data/design_layout.tsv</code>.</p>
+<p>The per-kit means, SDs, n, ICCs and contrast p-values above then go into a supplementary table
+rather than competing for a main-text slot.</p>
+
+<div class="pager">
+  <a href="5-figure.html"><span>Previous</span>← New Figure 1</a>
+  <a href="7-critique.html"><span>Next</span>Critique of the rest →</a>
+</div>
+</main>
+</div>
+</body>
+</html>

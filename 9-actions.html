@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Action checklist — kit complexity evaluation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <div class="brand">
+    <b>Kit complexity evaluation</b>
+    <span>Design &amp; statistics review · 17 Aug 2026</span>
+  </div>
+  <div class="grp">Overview</div>
+  <ol><li><a href="index.html"><span class="n">00</span>Summary</a></li></ol>
+  <div class="grp">The study as executed</div>
+  <ol>
+    <li><a href="1-design.html"><span class="n">01</span>Experimental design</a></li>
+    <li><a href="2-confounding.html"><span class="n">02</span>Confounding &amp; defects</a></li>
+  </ol>
+  <div class="grp">Statistics</div>
+  <ol>
+    <li><a href="3a-plain-english.html"><span class="n">3a</span>In plain English</a></li>
+    <li><a href="3-statistics.html"><span class="n">03</span>The problem, quantified</a></li>
+    <li><a href="4-recommendation.html"><span class="n">04</span>Recommendation</a></li>
+    <li><a href="5-figure.html"><span class="n">05</span>New Figure 1</a></li>
+    <li><a href="6-tables.html"><span class="n">06</span>Results tables</a></li>
+  </ol>
+  <div class="grp">Manuscript</div>
+  <ol>
+    <li><a href="7-critique.html"><span class="n">07</span>Critique of the rest</a></li>
+    <li><a href="8-methods.html"><span class="n">08</span>Methods text</a></li>
+    <li><a class="here" href="9-actions.html"><span class="n">09</span>Action checklist</a></li>
+  </ol>
+  <div class="grp">Compliance</div>
+  <ol>
+    <li><a href="10-ki-standards.html"><span class="n">10</span>KI standards</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="kicker">Manuscript</p>
+<h1>Action checklist</h1>
+<p class="lede">Ordered by dependency, not by effort. The checkboxes are local to your browser
+session and are here so you can work through the list on screen.</p>
+
+<h2>Blocking decisions, take these to the next supervisor meeting</h2>
+<ul class="chk">
+  <li class="done"><input type="checkbox" checked><label><b>Decide the EVO cfDNA run. Settled 17 Aug 2026:</b> the January/February first run is used; the June re-prep is excluded because it was carried out with documented protocol errors. This is what the scripts already do, so no number changes. <a href="4-recommendation.html#evo">Detail</a></label></li>
+  <li><input type="checkbox"><label><b>Write down what went wrong in the June EVO re-prep</b>, specifically enough to put one sentence in the Methods. It currently exists only as spoken lab knowledge. <a href="4-recommendation.html#evo-record">Detail</a></label></li>
+  <li><input type="checkbox"><label><b>Decide the library exclusion rule.</b> Six libraries are currently dropped by name. Either restore them or state a prospective QC criterion applied uniformly. <a href="7-critique.html#exclusions">Detail</a></label></li>
+  <li><input type="checkbox"><label><b>Confirm the statistical approach with ST.</b> Batch as the experimental unit (their point, accepted) but a mixed model rather than a rank test on three points. <a href="3-statistics.html#omnibus">The head-to-head numbers</a></label></li>
+  <li><input type="checkbox"><label><b>Settle the title</b> from the three candidates, and decide whether "The ProBio team" moves to Acknowledgments.</label></li>
+</ul>
+
+<h2>Analysis</h2>
+<ul class="chk">
+  <li><input type="checkbox"><label>Rerun <code>program/plot_conversion_rate_batchlevel_20260817.R</code> once the library exclusion rule is settled. The EVO setting (<code>EVO_CFDNA_RUN &lt;- "orig"</code>) is already correct.</label></li>
+  <li><input type="checkbox"><label>Apply the same batch-level treatment to <code>plot_hsmetrics_20260512.R</code>, <code>plot_gcbias_20260512.R</code> and <code>FADE_artifacts_ggstats_20260610.R</code>. <a href="4-recommendation.html#other-figures">Suggested scales</a></label></li>
+  <li><input type="checkbox"><label>Produce the coverage/saturation-curve figure and the background-error-rate figure as numbered supplementary files. Neither is currently in <code>supplementary_figures/</code>.</label></li>
+  <li><input type="checkbox"><label>Run and record the varIdent and rank-based sensitivity analyses for the supplement.</label></li>
+  <li><input type="checkbox"><label>Verify the <code>input_amount</code> denominator was correct for the 150 ng and 25 ng runs, not left at the hard-coded 30. <a href="7-critique.html#endpoint">Detail</a></label></li>
+  <li><input type="checkbox"><label>Standardise <code>p.adjust.method</code> on Holm everywhere; fix or delete <code>plot_conv-rate-STATS.R</code>, which has data hard-coded inline.</label></li>
+</ul>
+
+<h2>Data and repository hygiene</h2>
+<ul class="chk">
+  <li><input type="checkbox"><label>Fix the greedy regex at <code>program/scripts/fadeout_parsing.sh</code> line 50 and regenerate <code>fadeout_stats.csv</code>, so <code>Concentration</code> and <code>Kit</code> are usable.</label></li>
+  <li><input type="checkbox"><label>Repair the prep sheet: the malformed dates <code>2504010</code>/<code>2504011</code>/<code>2504014</code> and <code>251219</code>, the <code>#N/A</code> hybridisation pool, and the shifted columns in the re-prep and re-hyb rows.</label></li>
+  <li><input type="checkbox"><label>Populate <code>manuscript/R-scripts/</code> from <code>program/</code>, or point the code-availability statement somewhere real.</label></li>
+  <li><input type="checkbox"><label>Fix the stale <code>setwd()</code> calls so every figure script runs from the repository root against <code>manuscript/data/</code>.</label></li>
+</ul>
+
+<h2>Figures and tables</h2>
+<ul class="chk">
+  <li><input type="checkbox"><label>Renumber once, from the draft's own plan. Resolve the missing Fig 2, the missing S2, the duplicate S3, and remove the stale 20260512 FADE renders superseded by 20260610.</label></li>
+  <li><input type="checkbox"><label>Build <b>Table 1 as the design table</b>: kit × sample type × batches × libraries × operator × prep dates × PCR cycles × adapter:insert ratio. Source: <code>manuscript/data/design_layout.tsv</code>.</label></li>
+  <li><input type="checkbox"><label>Build the supplementary results table: per-kit mean, SD, n, ICC, and all pairwise p and Hedges' g. Source: the two TSVs in <code>manuscript/data/</code>. <a href="6-tables.html">Rendered here</a></label></li>
+  <li><input type="checkbox"><label>Add the operator-reproducibility supplementary figure from CG production data (VK vs CDM over time), pre-emptively. <a href="2-confounding.html#operator">Why</a></label></li>
+  <li><input type="checkbox"><label>Convert all figures to TIFF or EPS with embedded fonts, supplied as separate files.</label></li>
+  <li><input type="checkbox"><label>Check that the main-text count stays within six figures and tables combined.</label></li>
+</ul>
+
+<h2>Writing</h2>
+<ul class="chk">
+  <li><input type="checkbox"><label>Paste the Statistical analysis paragraph and fill in the software versions. <a href="8-methods.html#stats">Text</a></label></li>
+  <li><input type="checkbox"><label>Close the Methods placeholders: experimental setup, adapter:insert ratio, sequencing depth for panel and WGS, data analysis. <a href="8-methods.html#setup">Text</a></label></li>
+  <li><input type="checkbox"><label>Write Results from <a href="6-tables.html">the tables</a>, not from either AI document. State the FFPE loss figure (95 to 98 % of input molecules) explicitly.</label></li>
+  <li><input type="checkbox"><label>Write the Discussion including the five interpretation caveats. <a href="7-critique.html#discussion">List</a></label></li>
+  <li><input type="checkbox"><label>Write the Limitations paragraph. <a href="8-methods.html#limitations">Draft text</a></label></li>
+  <li><input type="checkbox"><label>Replace the <code>XXX</code> placeholders in the Abstract with computed values; keep it under 250 words.</label></li>
+  <li><input type="checkbox"><label>Bring the reference list from 2 to roughly 35 to 40, within the limit of 40. Include the FADE method paper (<code>manuscript/data/artifacts_FADE/FADE_paper.pdf</code>) and a citation for 3.218 pg per haploid genome.</label></li>
+  <li><input type="checkbox"><label>Resolve affiliations 5 to 7.</label></li>
+</ul>
+
+<div class="box note">
+  <p class="t">One habit worth keeping</p>
+  <p>Every quantitative claim in the manuscript should be traceable to a file in
+  <code>manuscript/data/</code> or to a script in <code>program/</code>. The two AI-generated
+  documents in <code>manuscript/</code> contain plausible-looking numbers that are invented; the
+  safest rule is that nothing is copied out of either one.</p>
+</div>
+
+<div class="pager">
+  <a href="8-methods.html"><span>Previous</span>← Methods text</a>
+  <a href="10-ki-standards.html"><span>Next</span>KI standards →</a>
+</div>
+</main>
+</div>
+</body>
+</html>

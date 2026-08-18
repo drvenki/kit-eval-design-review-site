@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>KI research standards — kit complexity evaluation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <div class="brand">
+    <b>Kit complexity evaluation</b>
+    <span>Design &amp; statistics review · 17 Aug 2026</span>
+  </div>
+  <div class="grp">Overview</div>
+  <ol><li><a href="index.html"><span class="n">00</span>Summary</a></li></ol>
+  <div class="grp">The study as executed</div>
+  <ol>
+    <li><a href="1-design.html"><span class="n">01</span>Experimental design</a></li>
+    <li><a href="2-confounding.html"><span class="n">02</span>Confounding &amp; defects</a></li>
+  </ol>
+  <div class="grp">Statistics</div>
+  <ol>
+    <li><a href="3a-plain-english.html"><span class="n">3a</span>In plain English</a></li>
+    <li><a href="3-statistics.html"><span class="n">03</span>The problem, quantified</a></li>
+    <li><a href="4-recommendation.html"><span class="n">04</span>Recommendation</a></li>
+    <li><a href="5-figure.html"><span class="n">05</span>New Figure 1</a></li>
+    <li><a href="6-tables.html"><span class="n">06</span>Results tables</a></li>
+  </ol>
+  <div class="grp">Manuscript</div>
+  <ol>
+    <li><a href="7-critique.html"><span class="n">07</span>Critique of the rest</a></li>
+    <li><a href="8-methods.html"><span class="n">08</span>Methods text</a></li>
+    <li><a href="9-actions.html"><span class="n">09</span>Action checklist</a></li>
+  </ol>
+  <div class="grp">Compliance</div>
+  <ol>
+    <li><a class="here" href="10-ki-standards.html"><span class="n">10</span>KI standards</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="kicker">Compliance</p>
+<h1>Alignment with Karolinska Institutet research standards</h1>
+<p class="lede">The statistical review is consistent with, and in places strengthens, KI's
+expectations on good research practice. What it does not cover is the formal compliance layer:
+ethics and legal basis, data management, archiving, authorship, conflicts of interest and open
+access. Those gaps are listed here with the change each one implies.</p>
+
+<div class="box warn">
+  <p class="t">Read this page as a prompt list, not as legal advice</p>
+  <p>This page was written without access to the KI staff portal, so every named rule below should
+  be verified against the current version on <code>staff.ki.se</code> before you rely on it, and
+  the registration numbers filled in. Your department (MEB) and KI's research data support and
+  legal office are the authoritative sources. Treat each item as "confirm this and record the
+  answer", not as a settled statement of the rule.</p>
+</div>
+
+<h2 id="verdict">Where the review already aligns</h2>
+<p>Three of the changes recommended elsewhere on this site are not merely statistical
+improvements. They are good-research-practice requirements under the Swedish Research Council's
+<em>God forskningssed</em> and the ALLEA European Code of Conduct for Research Integrity, both of
+which KI adheres to.</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Principle</th><th>What the review does</th></tr></thead>
+<tbody>
+<tr class="good"><td>Analyses must match the design; results must not be overstated</td>
+    <td>Replaces a pseudoreplicated test with a batch-level model, and reports that FFPE 25 ng supports no pairwise claim rather than quoting uncorrected p-values.</td></tr>
+<tr class="good"><td>Selective reporting and post-hoc data exclusion are integrity issues</td>
+    <td>Names the six undocumented library exclusions and the <code>grepl()</code>-hidden EVO run choice, and requires a prospective, uniformly applied rule.</td></tr>
+<tr class="good"><td>Limitations must be stated by the authors, not discovered by reviewers</td>
+    <td>Puts operator aliasing, same-day batches, unequal adapter ratios and the single DNA pool into the Methods and Limitations text.</td></tr>
+<tr class="good"><td>Fabrication and falsification</td>
+    <td>Refuses every number from the two AI-generated documents in <code>manuscript/</code> and recomputes from the raw data.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Nothing on this site conflicts with KI standards. The issue is coverage, not correctness.</p>
+
+<h2 id="ethics">Ethics, consent and legal basis</h2>
+<p>The study uses leftover plasma from ProBio participants, blood genomic DNA from two donors, and
+FFPE punches from nine patient blocks. The draft Methods do not state the permits covering that
+material.</p>
+<div class="box note">
+  <p class="t">The repository does hold ethics documentation, in <code>documentation/ethical/</code></p>
+  <p>Three sets of decisions from the Swedish Ethical Review Authority are filed there, in Swedish,
+  and the diary numbers are readable from the filenames:</p>
+  <ul>
+    <li><b>ICAP</b>, application and approval under <code>2009/780-31</code>, with ten subsequent
+    amendments (<em>kompletteringar</em>) running <code>2009/1357-32</code> through
+    <code>2018/11615-32</code>.</li>
+    <li><b>ICAP, localised ctDNA</b>, submitted 2018-10-05.</li>
+    <li><b>STHLM3-MR</b>, application June 2017 and approvals August 2017, with a ctDNA amendment
+    approved 2018-12-28. Includes the participant information sheet.</li>
+  </ul>
+  <p><b>Do not assume any of these covers this study.</b> They date from 2017 to 2018 and belong to
+  the ICAP and STHLM3-MR cohorts, whereas the material here is described as coming from ProBio. The
+  task is to establish which permit the plasma, the donor blood and the FFPE blocks actually sit
+  under, and whether methods development is within its scope. But the starting point is in the
+  repository, not somewhere else.</p>
+</div>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Item</th><th>Question to answer and record</th><th>Where it lands</th></tr></thead>
+<tbody>
+<tr><td>Ethical review</td>
+    <td>Which decision from the Swedish Ethical Review Authority (Etikprövningsmyndigheten, under the Ethical Review Act, SFS 2003:460) covers this work? Is methods development within the scope of ProBio's existing permit, or was an amendment needed? Record the registration number.</td>
+    <td>Methods, "Ethics" statement</td></tr>
+<tr><td>The two blood donors</td>
+    <td>Consent basis for using their DNA as a methods-development control.</td><td>Methods</td></tr>
+<tr><td>FFPE blocks</td>
+    <td>The repository describes them as anonymous. Confirm whether the material is genuinely anonymised (irreversibly, with no key) or pseudonymised. That distinction determines whether GDPR and the Ethical Review Act apply at all, and it should be stated in one explicit sentence rather than implied by the word "anonymous".</td>
+    <td>Methods, Limitations</td></tr>
+<tr><td>Biobank</td>
+    <td>Samples collected within healthcare fall under the Swedish Biobank Act (SFS 2023:38, in force 1 July 2023). Confirm a biobank agreement covers the plasma and the FFPE punches for this use.</td>
+    <td>Ethics statement</td></tr>
+<tr><td>Personal data</td>
+    <td>Human sequence data linked to a donor are personal data even when pseudonymised. Confirm the processing is entered in KI's record of processing activities, with KI named as controller and the legal basis stated.</td>
+    <td>Data availability, Ethics</td></tr>
+</tbody>
+</table>
+</div>
+<div class="box decision">
+  <p class="t">Blocking for submission</p>
+  <p>Clinical Chemistry requires an ethics statement naming the approving body and the reference
+  number. Start from <code>documentation/ethical/</code>, but confirm with the ProBio study
+  documentation which permit covers the material actually used here, since the filed decisions are
+  ICAP and STHLM3-MR. Settle this before the rest of the Methods is finalised.</p>
+</div>
+
+<h2 id="data">Research data management</h2>
+<ul>
+  <li><b>No data management plan exists in this project.</b> KI expects a DMP for research
+  projects, and funders generally require one. <code>documentation/</code> holds the analysis plan
+  and codebook templates but no DMP. Write one, even retrospectively, and store it with the
+  project.</li>
+  <li><b>Storage.</b> Primary data live on the Slurm cluster under
+  <code>/nfs/KODIAK2/PROBIO3/EVAL_SAMPLES/KIT_COMPLEXITY/</code>. Confirm that system is an
+  approved environment for this data classification, and that the working copies on your laptop
+  are covered too. Sensitive human sequence data should not be sitting only on personal
+  machines or in consumer cloud storage.</li>
+  <li><b>Retention.</b> KI is a public authority, so research material is subject to the Swedish
+  Archives Act and to KI's own rule on preservation of research material, which sets a minimum
+  retention period (commonly stated as at least ten years after completion; confirm the current
+  wording and registration number). Decide now who owns the HPC directory after your defence and
+  write it into the archive README.</li>
+  <li><b>The MEB PhD archive template is not filled in.</b> <code>Readme.txt</code> at the top
+  level is still the blank form. This is your department's own standard and it is the single most
+  visible unmet requirement in the repository. Fill it in, including the location of the primary
+  data, the software environment, and the person responsible after you leave.</li>
+</ul>
+
+<h2 id="reproducibility">Reproducibility and provenance</h2>
+<p>KI's guidance on good research practice expects that published results can be traced back to
+the data and code that produced them. The current state does not meet that bar, for reasons
+already documented elsewhere on this site.</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Gap</th><th>Change</th></tr></thead>
+<tbody>
+<tr><td>The project is not under version control</td>
+    <td>Initialise a repository. Scripts are currently dated snapshots (<code>plot_hsmetrics_20251007 / _20260511 / _20260512</code>) with duplicates across <code>program/</code>, <code>output/</code> and <code>plot_runs/</code>, so which code produced which figure is inferred rather than recorded. Tag the commit used for submission.</td></tr>
+<tr><td><code>manuscript/R-scripts/</code> is empty; figures were copied and renamed by hand</td>
+    <td>Populate it, or have the scripts write directly into <code>manuscript/</code>. A code-availability statement pointing at an empty directory is worse than none.</td></tr>
+<tr><td>Stale <code>setwd()</code> paths pointing at personal home directories</td>
+    <td>Make every script run from the repository root against <code>manuscript/data/</code>.</td></tr>
+<tr><td>Primary lab records contain data-entry errors</td>
+    <td>The prep sheet has unparseable dates, a <code>#N/A</code> hybridisation pool and shifted columns in the repeat rows. Accurate primary records are a good-practice requirement, not a tidiness preference. <a href="2-confounding.html#defects">List</a></td></tr>
+<tr><td>Software versions unrecorded</td>
+    <td>Record R and package versions (<code>sessionInfo()</code>) and the versions of fgbio, Picard, GATK, bwa, skewer and fade used in the pipeline. The Methods need them and a reviewer may ask.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="sharing">Data sharing and the data availability statement</h2>
+<p>Raw FASTQ and BAM files from ProBio participants and patient FFPE material cannot be deposited
+in an open repository. The usual route for Swedish projects is controlled access through the
+Swedish federated node of the European Genome-phenome Archive, with a metadata description
+registered so the dataset is findable. Points to settle:</p>
+<ul>
+  <li>Whether the ethics permit and consent allow deposition at all, and under what access
+  conditions.</li>
+  <li>Transfers outside the EU and EEA need a legal basis, which is the reason the Swedish node is
+  normally preferred over depositing directly abroad. Confirm current practice with KI's research
+  data support.</li>
+  <li>Register a dataset description via the Swedish National Data Service so the study is
+  discoverable even where the data themselves are restricted.</li>
+  <li>Derived, non-identifying summary data can be shared openly. The per-library metric tables in
+  <code>manuscript/data/</code> are a good candidate and would let others reproduce every figure in
+  the paper without any access request.</li>
+</ul>
+<div class="box note">
+  <p class="t">Suggested split</p>
+  <p>Deposit the <b>summary tables and all analysis code openly</b>, and place only the read-level
+  data under controlled access. That satisfies the journal, satisfies open-science expectations,
+  and keeps the sensitive layer protected. It also happens to be the split this repository is
+  already organised around.</p>
+</div>
+
+<h2 id="authorship">Authorship, contributions and conflicts of interest</h2>
+<ul>
+  <li><b>Authorship criteria.</b> KI follows the ICMJE recommendations. Every listed author must
+  meet all four criteria, and everyone who meets them must be listed. Apply this deliberately to
+  the two operators whose laboratory work the study rests on.</li>
+  <li><b>"The ProBio team" in the author list.</b> A group name in the byline is acceptable under
+  ICMJE only when the individual members who meet the authorship criteria are named, usually in a
+  supplementary list. If the members do not meet the criteria, the group belongs in
+  Acknowledgments. The AI review suggested moving it; the ICMJE rule is the reason to decide one
+  way or the other.</li>
+  <li><b>Contributorship statement.</b> Consider CRediT roles. This study has a clean division
+  between laboratory work, pipeline development and analysis, and stating it also documents the
+  operator split you are already disclosing as a limitation.</li>
+  <li><b>Conflicts of interest.</b> This is a benchmark of seven commercial products, so the
+  disclosure has to be explicit: whether any kits, reagents or sequencing capacity were provided
+  free or at a discount by a manufacturer, whether any manufacturer had any role in design,
+  analysis or the decision to publish, and any consulting or advisory relationships. State this
+  even if the answer is "none", because a reader will assume the question was asked.</li>
+  <li><b>Infrastructure acknowledgment.</b> Sequencing and the production environment referenced
+  by your supervisor sit with Clinical Genomics and SciLifeLab. Check their expected acknowledgment
+  wording and whether any staff meet authorship criteria.</li>
+  <li><b>Affiliation and ORCID.</b> Use KI's prescribed affiliation format, and supply ORCID iDs
+  for all KI authors. The draft's open affiliations 5 to 7 need resolving.</li>
+</ul>
+
+<h2 id="publication">Publication and open access</h2>
+<ul>
+  <li>KI expects publications to be openly available. Confirm whether Clinical Chemistry is covered
+  by a national agreement through the Bibsam consortium, because that determines the article
+  processing charge and the licence. Do this before submission, not after acceptance.</li>
+  <li>Register the publication in KI's publication database once accepted, and deposit the
+  full text as required.</li>
+  <li>Check the EQUATOR network for an applicable reporting guideline. No checklist fits a library
+  preparation benchmark exactly, but the journal has its own requirements for reporting analytical
+  method comparisons, and the minimum-information conventions for sequencing experiments are worth
+  following for the Methods.</li>
+</ul>
+
+<h2 id="ai">Disclosure of generative AI use</h2>
+<div class="box warn">
+  <p class="t">Two hazards, one of them already realised</p>
+  <p><code>Clinical Chemistry Manuscript Review.pdf</code> and <code>AnswerThis_analysis.docx</code>
+  are AI-generated and contain invented conversion rates presented in the format of results. They
+  sit in the same folder as the real data. The first hazard is that one of those numbers reaches
+  the manuscript, which would be a fabrication finding regardless of intent. The second is
+  disclosure: most journals now require a statement of how generative AI was used in preparing a
+  manuscript, and AI tools cannot be authors.</p>
+  <p>Two concrete steps. Rename or move those two files so their status is unmistakable, for
+  example into <code>manuscript/ai-generated-do-not-cite/</code>. And draft the AI-use disclosure
+  now, covering both those documents and this review, against the journal's current policy and
+  KI's guidance on generative AI in research.</p>
+</div>
+
+<h2 id="checklist">What to add to the action list</h2>
+<ul class="chk">
+  <li><input type="checkbox"><label><b>Obtain and record the ethics registration number</b> and confirm this work falls within its scope. Blocking.</label></li>
+  <li><input type="checkbox"><label>Confirm the biobank agreement covers the plasma and FFPE material for methods development.</label></li>
+  <li><input type="checkbox"><label>State explicitly whether the FFPE material is anonymised or pseudonymised, and write the consequence into the Methods.</label></li>
+  <li><input type="checkbox"><label>Write a data management plan and store it in <code>documentation/</code>.</label></li>
+  <li><input type="checkbox"><label>Fill in <code>Readme.txt</code>, the MEB archive form, including data location, software environment and the person responsible after your defence.</label></li>
+  <li><input type="checkbox"><label><b>Move the personal files out of <code>plot_runs/</code>.</b></label></li>
+  <li><input type="checkbox"><label>Put the project under version control and tag the submission commit.</label></li>
+  <li><input type="checkbox"><label>Record R, package and pipeline tool versions for the Methods.</label></li>
+  <li><input type="checkbox"><label>Decide the data availability route: controlled access for read-level data, open deposition for summary tables and code.</label></li>
+  <li><input type="checkbox"><label>Register a dataset description so the study is findable.</label></li>
+  <li><input type="checkbox"><label>Resolve the ProBio team byline against ICMJE criteria; add a contributorship statement.</label></li>
+  <li><input type="checkbox"><label>Draft the conflict-of-interest statement covering kit and reagent provision by manufacturers.</label></li>
+  <li><input type="checkbox"><label>Check Bibsam coverage and the open access route for Clinical Chemistry.</label></li>
+  <li><input type="checkbox"><label>Isolate the two AI-generated documents and draft the AI-use disclosure.</label></li>
+  <li><input type="checkbox"><label>Confirm the retention arrangement for the HPC data directory.</label></li>
+</ul>
+
+<div class="pager">
+  <a href="9-actions.html"><span>Previous</span>← Action checklist</a>
+  <a href="index.html"><span>Back to</span>Summary →</a>
+</div>
+</main>
+</div>
+</body>
+</html>

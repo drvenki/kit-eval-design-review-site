@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Design &amp; statistics review — kit complexity evaluation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <div class="brand">
+    <b>Kit complexity evaluation</b>
+    <span>Design &amp; statistics review · 17 Aug 2026</span>
+  </div>
+  <div class="grp">Overview</div>
+  <ol>
+    <li><a class="here" href="index.html"><span class="n">00</span>Summary</a></li>
+  </ol>
+  <div class="grp">The study as executed</div>
+  <ol>
+    <li><a href="1-design.html"><span class="n">01</span>Experimental design</a></li>
+    <li><a href="2-confounding.html"><span class="n">02</span>Confounding &amp; defects</a></li>
+  </ol>
+  <div class="grp">Statistics</div>
+  <ol>
+    <li><a href="3a-plain-english.html"><span class="n">3a</span>In plain English</a></li>
+    <li><a href="3-statistics.html"><span class="n">03</span>The problem, quantified</a></li>
+    <li><a href="4-recommendation.html"><span class="n">04</span>Recommendation</a></li>
+    <li><a href="5-figure.html"><span class="n">05</span>New Figure 1</a></li>
+    <li><a href="6-tables.html"><span class="n">06</span>Results tables</a></li>
+  </ol>
+  <div class="grp">Manuscript</div>
+  <ol>
+    <li><a href="7-critique.html"><span class="n">07</span>Critique of the rest</a></li>
+    <li><a href="8-methods.html"><span class="n">08</span>Methods text</a></li>
+    <li><a href="9-actions.html"><span class="n">09</span>Action checklist</a></li>
+  </ol>
+  <div class="grp">Compliance</div>
+  <ol>
+    <li><a href="10-ki-standards.html"><span class="n">10</span>KI standards</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="kicker">Overview</p>
+<h1>Design and statistics review</h1>
+<p class="lede">A reconstruction of the experimental layout as it was actually executed, a
+quantitative diagnosis of the pseudoreplication problem in the current figures, and a
+recommendation on the statistical analysis that keeps the presentation you already have.</p>
+
+<div class="stat">
+  <div><b>0.46</b><span>median ICC of conversion rate. Batch effects are real and heterogeneous (range 0.00 to 0.98)</span></div>
+  <div><b>4.7</b><span>effective n per kit, not 9. Design effect ≈ 1.9</span></div>
+  <div><b>0/15</b><span>cfDNA pairwise results surviving if you aggregate to 3 points and rerun Dunn</span></div>
+  <div><b>6/15</b><span>surviving under the recommended batch-level model</span></div>
+</div>
+
+<h2>The short version</h2>
+<p><b>ST is right about the unit of analysis, but the naive implementation would destroy the
+paper.</b> The three technical replicates inside a batch are not independent (measured ICC is
+0.46 on average, and reaches 0.98 for KAPAON in cfDNA), so the current Kruskal–Wallis + Dunn on
+nine libraries per kit is anticonservative. But collapsing to three points and rerunning a
+<em>rank</em> test cannot work: a Wilcoxon/Dunn comparison of 3 vs 3 has a minimum attainable
+p&nbsp;of 0.1 before any multiplicity correction. It is not conservative, it is structurally
+incapable of producing a significant pairwise result.</p>
+
+<p>The fix is to aggregate to the batch <em>and</em> pool the batch-to-batch variance across the
+five or six kits within a sample type. That takes the error degrees of freedom from 4 to 10–12
+and recovers most of the lost power, while honouring "three points become one point" exactly.</p>
+
+<pre><code>lmerTest::lmer(logit(y) ~ kit + (1 | kit:batch), REML = TRUE)
+anova(m, ddf = "Kenward-Roger")   # + Holm-adjusted pairwise contrasts on batch means</code></pre>
+
+<h2>Head-to-head, on your data</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr>
+  <th>Sample type</th>
+  <th>Current<br><small>KW on 9 libraries</small></th>
+  <th>Naive aggregation<br><small>KW on 3 batch means</small></th>
+  <th>Recommended<br><small>batch-level mixed model</small></th>
+</tr></thead>
+<tbody>
+<tr><td>cfDNA 30 ng</td><td class="num">p = 1.1e−08 · 12/15</td><td class="num">p = 0.0089 · <b>0/15</b></td><td class="num">p = 0.0011 · 6/15</td></tr>
+<tr><td>gDNA 150 ng</td><td class="num">p = 8.8e−08 · 10/10</td><td class="num">p = 0.010 · 2/10</td><td class="num">p = 1.3e−08 · 7/10</td></tr>
+<tr><td>FFPE 25 ng</td><td class="num">p = 6.1e−05 · 5/10</td><td class="num">p = 0.039 · 0/10</td><td class="num">p = 0.032 · 0/10</td></tr>
+<tr><td>FFPE 150 ng</td><td class="num">p = 7.5e−07 · 8/10</td><td class="num">p = 0.016 · 3/10</td><td class="num">p = 3.2e−05 · 8/10</td></tr>
+</tbody>
+</table>
+</div>
+<p><small>Omnibus p, then the number of pairwise contrasts surviving Holm correction.</small></p>
+
+<h2>Four things in the layout that constrain the analysis</h2>
+
+<div class="box ok">
+  <p class="t">Decision 1, resolved 17 Aug 2026 — the EVO cfDNA run</p>
+  <p>The January/February 2025 preparation is the one that goes into the paper. The June 2025
+  re-prep is excluded because it was carried out with documented protocol errors in the laboratory,
+  making it a failed preparation rather than a competing estimate. This is what the plotting scripts
+  already do, so <b>no number on this site changes</b>: cfDNA omnibus p = 0.0011, EVO 0.421. What
+  remains is to write the reason down, since it currently exists only as spoken lab knowledge.
+  <a href="4-recommendation.html#evo">Detail →</a></p>
+</div>
+
+<div class="box warn">
+  <p class="t">Constraint 2 — operator is completely aliased with kit</p>
+  <p>CDM prepared EVO and WM; VK prepared KAPA15, KAPAON, KAPAON-COV, IL and TWIST. No model can
+  estimate or adjust for an operator effect. The assumption is untestable inside this dataset, so
+  put the CG production VK-vs-CDM data in the supplement pre-emptively.
+  <a href="2-confounding.html#operator">Detail →</a></p>
+</div>
+
+<div class="box warn">
+  <p class="t">Constraint 3 — "batch" does not mean the same thing for every kit</p>
+  <p>WM's three batches in gDNA and both FFPE arms were <b>all prepared on 2025-04-02</b> on three
+  plates. WM cfDNA batches 1–2 share a day; EVO cfDNA batches 2–3 share a day. WM's apparent
+  reproducibility advantage is partly structural. TWIST (1.9 %) and IL (2.3 %) achieved lower
+  batch CV across three genuinely separate days.
+  <a href="2-confounding.html#batch">Detail →</a></p>
+</div>
+
+<div class="box warn">
+  <p class="t">Constraint 4 — adapter:insert ratio was not held constant</p>
+  <p>EVO swings ~6× across batches in FFPE and gDNA (≈100 / ≈57 / ≈370); every other kit holds
+  within 1.1×. Part of EVO's batch instability is adapter titration, not chemistry.
+  <a href="2-confounding.html#adapter">Detail →</a></p>
+</div>
+
+<div class="box ok">
+  <p class="t">One result that came out well — use it</p>
+  <p>The enzymatic-vs-sonication comparison is confounded with prep day in gDNA, which is exactly
+  where the largest effect in the study sits (0.192 vs 0.039). But in FFPE the two arms
+  <b>share prep days</b> and show the same direction. Use FFPE as the internal de-confounding
+  replication; a statistical reviewer will otherwise flag the gDNA comparison.
+  <a href="2-confounding.html#frag">Detail →</a></p>
+</div>
+
+<h2>Where to go next</h2>
+<div class="cards">
+  <a class="card" href="1-design.html"><b>Experimental design</b><span>Factor structure, nesting, DNA sources, and the full kit × sample type × batch layout with dates, operators, PCR cycles and adapter ratios.</span></a>
+  <a class="card" href="2-confounding.html"><b>Confounding &amp; defects</b><span>The five places the design departs from "3 batches × 3 replicates", each with the numbers.</span></a>
+  <a class="card" href="3a-plain-english.html"><b>In plain English</b><span>The whole statistical argument without jargon: why nine points are not nine, why three-versus-three cannot work, and what pooling repairs.</span></a>
+  <a class="card" href="3-statistics.html"><b>The problem, quantified</b><span>Per-stratum ICC, design effect, and why the current p-values are too small.</span></a>
+  <a class="card" href="4-recommendation.html"><b>Recommendation</b><span>The model, why not the naive aggregation, how to keep the same-looking figure, sensitivity analyses, and the EVO decision.</span></a>
+  <a class="card" href="5-figure.html"><b>New Figure 1</b><span>The regenerated four-panel figure with batch-level statistics.</span></a>
+  <a class="card" href="6-tables.html"><b>Results tables</b><span>Every contrast with Holm-adjusted p and Hedges' g; per-kit means, SD and n. Raw material for Table 1.</span></a>
+  <a class="card" href="7-critique.html"><b>Critique of the rest</b><span>The conversion-rate endpoint, exclusions, data-management defects, and what the results actually support.</span></a>
+  <a class="card" href="8-methods.html"><b>Methods text</b><span>Drop-in paragraph for the Statistical analysis section.</span></a>
+  <a class="card" href="9-actions.html"><b>Action checklist</b><span>Ordered, tickable list of what has to happen before submission.</span></a>
+  <a class="card" href="10-ki-standards.html"><b>KI standards</b><span>Ethics, data management, archiving, authorship, conflicts of interest and AI disclosure: the compliance layer the rest of this review does not cover.</span></a>
+</div>
+
+<h2>Provenance</h2>
+<p>Every number on this site is recomputed from
+<code>manuscript/data/Collected prep info.xlsx</code> (sheet <code>TGA</code>),
+<code>manuscript/data/experiment overview.xlsx</code> and
+<code>manuscript/data/conversion_rate/*.txt</code>. Nothing is taken from
+<code>Clinical Chemistry Manuscript Review.pdf</code> or <code>AnswerThis_analysis.docx</code>:
+both are AI-generated and their quantitative results are invented.</p>
+<pre><code>cd ~/study2_kit-complexity-evaluation
+Rscript program/plot_conversion_rate_batchlevel_20260817.R</code></pre>
+<p>The same content is available as a single markdown file at
+<code>manuscript/DESIGN-AND-STATISTICS-REVIEW.md</code>.</p>
+
+<h2>People, and how to treat this page</h2>
+<p>Colleagues are referred to throughout by initials only: <b>VC</b> (author of this review),
+<b>JL</b> (supervisor), <b>VK</b> and <b>CDM</b> (the two laboratory operators), <b>AL</b>
+(co-author, the KAPA batch-effect observation), <b>ST</b> (the consulting statistician).</p>
+<div class="box warn">
+  <p class="t">Unlisted, but not private</p>
+  <p>This site is served over the public internet. It is excluded from search engines by
+  <code>robots.txt</code> and a <code>noindex</code> tag, and the URL is not linked from anywhere,
+  so it will not be found by accident. It is nonetheless readable by anyone who has the address.
+  It contains unpublished results for a manuscript in preparation. <b>Share the link only with
+  co-authors, and do not post it anywhere public.</b></p>
+</div>
+
+<div class="pager">
+  <span></span>
+  <a href="1-design.html"><span>Next</span>Experimental design →</a>
+</div>
+</main>
+</div>
+</body>
+</html>

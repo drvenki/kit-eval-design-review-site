@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Methods text — kit complexity evaluation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <div class="brand">
+    <b>Kit complexity evaluation</b>
+    <span>Design &amp; statistics review · 17 Aug 2026</span>
+  </div>
+  <div class="grp">Overview</div>
+  <ol><li><a href="index.html"><span class="n">00</span>Summary</a></li></ol>
+  <div class="grp">The study as executed</div>
+  <ol>
+    <li><a href="1-design.html"><span class="n">01</span>Experimental design</a></li>
+    <li><a href="2-confounding.html"><span class="n">02</span>Confounding &amp; defects</a></li>
+  </ol>
+  <div class="grp">Statistics</div>
+  <ol>
+    <li><a href="3a-plain-english.html"><span class="n">3a</span>In plain English</a></li>
+    <li><a href="3-statistics.html"><span class="n">03</span>The problem, quantified</a></li>
+    <li><a href="4-recommendation.html"><span class="n">04</span>Recommendation</a></li>
+    <li><a href="5-figure.html"><span class="n">05</span>New Figure 1</a></li>
+    <li><a href="6-tables.html"><span class="n">06</span>Results tables</a></li>
+  </ol>
+  <div class="grp">Manuscript</div>
+  <ol>
+    <li><a href="7-critique.html"><span class="n">07</span>Critique of the rest</a></li>
+    <li><a class="here" href="8-methods.html"><span class="n">08</span>Methods text</a></li>
+    <li><a href="9-actions.html"><span class="n">09</span>Action checklist</a></li>
+  </ol>
+  <div class="grp">Compliance</div>
+  <ol>
+    <li><a href="10-ki-standards.html"><span class="n">10</span>KI standards</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="kicker">Manuscript</p>
+<h1>Drop-in Methods text</h1>
+<p class="lede">Two paragraphs to paste into the draft, plus the sentences that close the
+placeholders the review flags. Numbers to be filled from
+<a href="6-tables.html">the results tables</a>.</p>
+
+<h2 id="stats">Statistical analysis</h2>
+<blockquote>
+<p>Each sample type was analysed separately. The experimental unit was the library-preparation
+batch: three independent preparations per kit, each comprising three technical replicates
+processed in parallel from the same DNA aliquot. Because technical replicates within a batch share
+operator, reagent lot, plate and hybridisation pool, they were not treated as independent
+observations. Conversion rate was logit-transformed and modelled as
+<code>logit(y) ~ kit + (1 | batch within kit)</code> using restricted maximum likelihood (lme4
+1.1-x, R 4.x), with denominator degrees of freedom by the Kenward–Roger approximation (lmerTest).
+Pairwise kit contrasts were computed on the estimated batch-level means using the pooled
+batch-level standard deviation and adjusted for multiplicity by the Holm procedure within each
+sample type; effect sizes are reported as Hedges' g on the logit scale. Between-batch and
+within-batch standard deviations and the resulting intraclass correlation are reported for every
+kit × sample type combination (Supplementary Table Sx). Sensitivity analyses allowing kit-specific
+residual variances (nlme varIdent) and a rank-based test on batch means gave concordant
+conclusions. Library preparations were performed by two operators, with operator aliased with kit
+(EVO and WM by one operator, the remaining kits by the other); an operator effect therefore cannot
+be estimated from these data and is reported as a limitation, with operator-level reproducibility
+data from routine production shown in Supplementary Figure Sx.</p>
+</blockquote>
+
+<h2 id="endpoint">Conversion rate definition</h2>
+<blockquote>
+<p>Conversion rate was defined as the number of unique molecules recovered at a fixed sequencing
+depth divided by the number of genome copies in the input. Unique-UMI target coverage was
+interpolated from a subsampling ladder at 3.5 × 10<sup>7</sup> read pairs per library, and divided
+by the theoretical maximum coverage, computed as the DNA input in nanograms divided by 3.218 pg per
+haploid genome copy [ref]. The measure is therefore unique-molecule recovery at a defined
+sequencing depth rather than an asymptotic saturation value; 35 M read pairs was chosen as
+[justification].</p>
+</blockquote>
+
+<h2 id="setup">Experimental setup, closing the "Describe experimental setup" placeholder</h2>
+<blockquote>
+<p>Seven library-preparation kits were evaluated across four input conditions: plasma cfDNA at
+30 ng, blood genomic DNA at 150 ng, and FFPE tumour DNA at 25 ng and 150 ng. Six kits were
+evaluated on cfDNA and five on genomic and FFPE DNA. One pooled DNA preparation was used per
+matrix: cfDNA from leftover plasma of several ProBio participants, genomic DNA from two blood
+donors, and FFPE DNA from punches of nine anonymised blocks aged one to four years, extracted
+individually and pooled. For each kit and input condition, three independent preparation batches
+were performed on separate occasions, each with three technical replicates, giving nine libraries
+per kit and input condition (n = 8 in six instances, see Table 1). All libraries were captured
+with the same ProBio panel using Twist Target Enrichment Standard Hybridisation v1 by a single
+operator, in hybridisation pools listed in Table 1, and sequenced on a NovaSeq X across three flow
+cells with libraries distributed across lanes. All libraries were processed through one
+bioinformatic pipeline and downsampled to 35 M read pairs before metric collection.</p>
+</blockquote>
+
+<h2 id="protocol">Adapter:insert ratio, closing the second placeholder</h2>
+<blockquote>
+<p>Adapter:insert molar ratios and PCR cycle numbers followed each manufacturer's recommendation
+for the given input amount and were therefore not equalised across kits (Table 1). For one kit
+(EVO) the adapter:insert ratio varied up to 6.3-fold between batches within the genomic and FFPE
+arms; this is reported as a source of between-batch variance for that kit (Supplementary
+Figure Sx).</p>
+</blockquote>
+
+<h2 id="exclusions">Exclusions</h2>
+<p>This paragraph cannot be written until the exclusion rule is decided. The template is:</p>
+<blockquote>
+<p>Libraries were excluded if [prospective criterion]. This affected n libraries: [list]. EVO cfDNA
+libraries were re-prepared in June 2025; that preparation was excluded because of documented
+protocol deviations during library preparation [specify], and the January–February 2025
+preparation was used. For the Illumina cfDNA arm, libraries from the second hybridisation were
+used, the first having been performed with incorrect blockers. Chromosome X was excluded from the
+cfDNA GC-bias analysis because [reason].</p>
+</blockquote>
+<div class="box warn">
+  <p class="t">One decision still blocks this paragraph, and one bracket still needs filling</p>
+  <p>The <a href="7-critique.html#exclusions">outlier-removal criterion</a> is unresolved and
+  changes the numbers. The <a href="4-recommendation.html#evo">EVO run choice</a> is settled, but
+  "[specify]" has to become a concrete statement of what went wrong in the June re-prep before the
+  sentence is publishable.</p>
+</div>
+
+<h2 id="limitations">Limitations, for the Discussion</h2>
+<blockquote>
+<p>This study has several limitations. First, replication was technical rather than biological: a
+single pooled DNA preparation per matrix type was used throughout, so the estimates do not cover
+donor-to-donor or block-to-block variability, and the FFPE results cannot be generalised across
+fixation protocols. Second, library preparations were performed by two operators with operator
+aliased with kit, so an operator effect cannot be separated from a kit effect. Third, adapter:insert
+ratio and PCR cycle number followed manufacturer recommendations and therefore differed between
+kits, so part of the observed differences reflects protocol rather than chemistry. Fourth, for one
+kit the three preparation batches were performed on the same day on separate plates, so its
+between-batch variance reflects plate-to-plate rather than day-to-day variation and is not directly
+comparable with that of the other kits. Fifth, the comparison of enzymatic against sonication-based
+fragmentation was performed on different days in the genomic DNA arm; it is supported by the FFPE
+arms, where both fragmentation methods shared preparation days. Finally, all conclusions are
+conditional on a single capture panel, hybridisation chemistry and analysis pipeline, including
+duplex consensus calling requiring single-strand agreement, which may penalise kits producing
+shorter inserts or different UMI structures.</p>
+</blockquote>
+
+<div class="pager">
+  <a href="7-critique.html"><span>Previous</span>← Critique of the rest</a>
+  <a href="9-actions.html"><span>Next</span>Action checklist →</a>
+</div>
+</main>
+</div>
+</body>
+</html>

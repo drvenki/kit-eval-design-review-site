@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Critique of the rest — kit complexity evaluation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+<nav class="side">
+  <div class="brand">
+    <b>Kit complexity evaluation</b>
+    <span>Design &amp; statistics review · 17 Aug 2026</span>
+  </div>
+  <div class="grp">Overview</div>
+  <ol><li><a href="index.html"><span class="n">00</span>Summary</a></li></ol>
+  <div class="grp">The study as executed</div>
+  <ol>
+    <li><a href="1-design.html"><span class="n">01</span>Experimental design</a></li>
+    <li><a href="2-confounding.html"><span class="n">02</span>Confounding &amp; defects</a></li>
+  </ol>
+  <div class="grp">Statistics</div>
+  <ol>
+    <li><a href="3a-plain-english.html"><span class="n">3a</span>In plain English</a></li>
+    <li><a href="3-statistics.html"><span class="n">03</span>The problem, quantified</a></li>
+    <li><a href="4-recommendation.html"><span class="n">04</span>Recommendation</a></li>
+    <li><a href="5-figure.html"><span class="n">05</span>New Figure 1</a></li>
+    <li><a href="6-tables.html"><span class="n">06</span>Results tables</a></li>
+  </ol>
+  <div class="grp">Manuscript</div>
+  <ol>
+    <li><a class="here" href="7-critique.html"><span class="n">07</span>Critique of the rest</a></li>
+    <li><a href="8-methods.html"><span class="n">08</span>Methods text</a></li>
+    <li><a href="9-actions.html"><span class="n">09</span>Action checklist</a></li>
+  </ol>
+  <div class="grp">Compliance</div>
+  <ol>
+    <li><a href="10-ki-standards.html"><span class="n">10</span>KI standards</a></li>
+  </ol>
+</nav>
+
+<main>
+<p class="kicker">Manuscript</p>
+<h1>The endpoint, the exclusions, and what the results support</h1>
+<p class="lede">Everything outside the statistical model: how conversion rate is defined, which
+libraries went missing, what the corrected analysis actually licenses you to claim, and where the
+draft stands against the journal's requirements.</p>
+
+<h2 id="endpoint">The conversion-rate endpoint itself</h2>
+<p>Defined in <code>program/scripts/plot_QC_adapter_ratio.R</code>, around lines 320 to 350:</p>
+<pre><code>theoretical_max_cov = input_ng × 1000 / 3.218          # 3.218 pg per haploid genome copy
+saturation_cov      = approxfun(totalReadPairs, cov_unique_umi)(3.5e7)
+conversion_rate     = saturation_cov / theoretical_max_cov</code></pre>
+
+<p>Points a reviewer will raise. None are fatal, but each needs a sentence in the Methods.</p>
+<ul>
+  <li><b>It is not a saturation value.</b> It is the unique-UMI coverage at a fixed sequencing
+  depth of 35 M read pairs, read off the subsampling ladder by linear interpolation. Kits that
+  saturate at different depths are therefore compared at a single arbitrary point on their curves,
+  and linear interpolation on a concave curve biases the estimate slightly low. Either rename it
+  (for example "unique-molecule recovery at 35 M read pairs") or justify 35 M as the clinically
+  relevant depth.</li>
+  <li><code>input_amount</code> is hard-coded as <code>30</code> in that snippet. <b>Confirm the
+  150 ng and 25 ng runs used the correct denominator.</b> A wrong denominator would rescale a whole
+  panel.</li>
+  <li>3.218 pg per haploid genome needs a citation.</li>
+  <li>It is a bounded proportion, which is the reason for the logit scale in the model.</li>
+</ul>
+
+<div class="box note">
+  <p class="t">Report the FFPE numbers honestly, they are the most interesting result</p>
+  <p>FFPE 150 ng conversion runs 0.020 to 0.050, meaning <b>95 to 98 % of input molecules are
+  lost</b>. That is the single most clinically consequential number in the paper, and the draft
+  does not currently state it.</p>
+</div>
+
+<h2 id="exclusions">Sample handling and exclusions</h2>
+<div class="box decision">
+  <p class="t">The easiest thing in the paper for a reviewer to attack</p>
+  <p>Libraries are missing from the analysis without a documented rule:
+  <code>KAPAON30ngB3R2</code>, <code>WM30ngB2R3</code>, <code>EVO25ngB1R1</code>,
+  <code>EVO150ngB1R1</code>, <code>KAPAONCOVARIS25ngB2R3</code>, <code>gDNA EVO150ngB1R1</code>.
+  <code>plot_saturation_curves_20260512.R</code> drops several of these <em>by name</em> as
+  outliers. Post-hoc removal by name, after seeing the data, with no stated criterion, is
+  indefensible as written. Either restore them, or define the exclusion rule prospectively (for
+  example "libraries failing QC threshold X") and apply it uniformly to every arm. Report n per
+  group in Table 1: it is 8 or 9, not always 9.</p>
+</div>
+<ul>
+  <li>The two cfDNA filters applied in every script (dropping <code>EVO.*-KH20250815</code> and
+  <code>IL.*-KH20250512</code>) and the chrX drop for cfDNA in the GC-bias script must all appear
+  in the Methods with their justification. The EVO one is now
+  <a href="4-recommendation.html#evo">decided and justified</a>; the IL re-hybridisation still needs
+  its reason stated.</li>
+  <li>The FFPE material is a pool of nine blocks aged 1 to 4 years. Fixation history and block age
+  are the dominant drivers of FFPE library yield; pooling averages them, but it also means the FFPE
+  result cannot be generalised across fixation protocols. One sentence in Limitations.</li>
+  <li>No randomisation of plate position or index assignment is recorded, and there was no
+  blinding. That is acceptable for a chemistry benchmark, but say so rather than leave it
+  unstated.</li>
+</ul>
+
+<h2 id="fabricated">Do not use numbers from the two AI documents</h2>
+<div class="box decision">
+  <p class="t">Both are invented</p>
+  <p><code>Clinical Chemistry Manuscript Review.pdf</code> and
+  <code>AnswerThis_analysis.docx</code> are AI-generated editorial critiques, not co-author input,
+  and not derived from this study's data. The review's "Recommended Abstract" quotes conversion
+  rates of 65 to 87 % under a heading reading
+  <code>[INSERT YOUR QUANTITATIVE FINDINGS - Examples below based on typical performance]</code>.
+  <b>The real range is 0.02 to 0.62.</b> Their structural checklist (word limits, effect sizes,
+  sample-size reporting) is useful. Their numbers are fabrications.</p>
+</div>
+
+<h2 id="supported">What the corrected analysis actually supports</h2>
+
+<h3>cfDNA 30 ng</h3>
+<p>EVO (0.421) ≈ WM (0.409) &gt; IL (0.357) ≈ TWIST (0.356) &gt; KAPAON (0.290) ≈ KAPA15 (0.242).
+Six of fifteen contrasts survive Holm. The defensible claim is that the newer chemistries (EVO,
+WM) outperform the legacy KAPA HyperPrep by roughly 1.7-fold, and that IL and TWIST are
+intermediate and the most batch-stable. This uses the January/February EVO preparation; the June
+re-prep is excluded as a <a href="4-recommendation.html#evo">failed preparation</a>.</p>
+
+<h3>gDNA 150 ng</h3>
+<p>WM (0.208) ≈ KAPAON (0.192) &gt; EVO (0.162) &gt; KAPA15 (0.137) ≫ KAPAON-COV (0.039). Seven of
+ten contrasts. The enzymatic-versus-sonication difference is the largest effect in the study.
+State that it is confounded with prep day in gDNA and that it is supported by the
+<a href="2-confounding.html#frag">day-blocked FFPE comparison</a>.</p>
+
+<h3>FFPE 150 ng</h3>
+<p>KAPAON (0.050) &gt; WM (0.033) ≈ KAPA15 (0.032) &gt; KAPAON-COV (0.024) ≈ EVO (0.020). Eight of
+ten contrasts. The most robust panel in the study.</p>
+
+<h3>FFPE 25 ng</h3>
+<p>Omnibus p = 0.032, and <b>no pairwise contrast survives correction</b>. KAPAON has the highest
+mean (0.124) and the ordering matches FFPE 150 ng, but the batch variance is too large to support
+a pairwise claim.</p>
+
+<h2 id="discussion">Interpretation caveats that belong in the Discussion</h2>
+<ol>
+  <li>Conclusions are conditional on one DNA pool per matrix type, one capture panel (ProBio
+  SNV/indel S3), one hybridisation chemistry (Twist v1) and one bioinformatic pipeline including
+  duplex consensus calling with <code>--require-single-strand-agreement</code>. A kit that produces
+  shorter inserts or a different UMI structure is penalised by that filter in ways that are not
+  intrinsic to the chemistry.</li>
+  <li>Adapter:insert ratio and PCR cycle number were not equalised across kits, so part of every
+  between-kit difference is protocol rather than chemistry.</li>
+  <li>Operator is aliased with kit: the EVO and WM results carry CDM's hands, the rest carry
+  VK's.</li>
+  <li>WM's apparent batch stability is inflated by same-day batches.</li>
+  <li>Frame the recommendation in cost-per-usable-molecule or per-sample terms if you want the
+  paper to be actionable clinically. A 1.7-fold conversion difference at 30 ng cfDNA translates
+  directly into limit of detection for ctDNA, which is the reason a Clinical Chemistry reader
+  cares.</li>
+</ol>
+
+<h2 id="mechanics">Manuscript mechanics against the journal requirements</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Requirement</th><th>Current state</th><th>Gap</th></tr></thead>
+<tbody>
+<tr><td>≤ 3500 words, ≤ 40 references</td><td>2 references</td><td>Background and Discussion need roughly 35 to 40.</td></tr>
+<tr><td>≤ 6 main figures + tables</td><td>5 figures, no Table 1</td><td><b>Make the design table Table 1.</b> It answers most of the review's missing-data list in one object.</td></tr>
+<tr><td>Consistent figure numbering</td><td>Three incompatible schemes</td><td>No Fig 2 in <code>main_figures/</code>, no S2, S3 used twice, stale 20260512 FADE renders. Renumber once, before writing Results.</td></tr>
+<tr><td>Structured abstract ≤ 250 words</td><td>Contains <code>XXX</code></td><td>Compute the values, do not reuse placeholder text.</td></tr>
+<tr><td>Complete Methods</td><td>Placeholders open</td><td>"Describe experimental setup", "Include adapter:insert ratio", "WGS and panel how deep sequenced?", "Data analysis", "Statistical analysis". Pages 1 and 2 of this review are the raw material for the first two; <a href="8-methods.html">page 8</a> is the text for the last.</td></tr>
+<tr><td>TIFF or EPS with embedded fonts, separate files</td><td>All PNG</td><td>Format conversion pass outstanding.</td></tr>
+<tr><td>Code availability</td><td><code>manuscript/R-scripts/</code> is empty</td><td>Point the statement at a real location, or populate that directory from <code>program/</code>.</td></tr>
+<tr><td>Author list</td><td>"The ProBio team" as an author entry</td><td>The review suggests moving it to Acknowledgments. Affiliations 5 to 7 and the title choice are also still open.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="pager">
+  <a href="6-tables.html"><span>Previous</span>← Results tables</a>
+  <a href="8-methods.html"><span>Next</span>Methods text →</a>
+</div>
+</main>
+</div>
+</body>
+</html>
