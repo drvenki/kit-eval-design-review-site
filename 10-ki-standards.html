@@ -71,7 +71,7 @@ which KI adheres to.</p>
 <tr class="good"><td>Analyses must match the design; results must not be overstated</td>
     <td>Replaces a pseudoreplicated test with a batch-level model, and reports that FFPE 25 ng supports no pairwise claim rather than quoting uncorrected p-values.</td></tr>
 <tr class="good"><td>Selective reporting and post-hoc data exclusion are integrity issues</td>
-    <td>Names the six undocumented library exclusions and the <code>grepl()</code>-hidden EVO run choice, and requires a prospective, uniformly applied rule.</td></tr>
+    <td>Separates the four capture failures, which are a legitimate quality exclusion, from three EVO libraries still dropped by name, and requires the <code>grepl()</code>-hidden EVO run choice and the capture-failure threshold to be stated in the Methods.</td></tr>
 <tr class="good"><td>Limitations must be stated by the authors, not discovered by reviewers</td>
     <td>Puts operator aliasing, same-day batches, unequal adapter ratios and the single DNA pool into the Methods and Limitations text.</td></tr>
 <tr class="good"><td>Fabrication and falsification</td>
@@ -240,18 +240,21 @@ registered so the dataset is findable. Points to settle:</p>
 </ul>
 
 <h2 id="ai">Disclosure of generative AI use</h2>
+<div class="box ok">
+  <p class="t">Hazard 1, removed 20 Aug 2026 — the fabricated numbers are gone</p>
+  <p>Two AI-generated editorial critiques used to sit in the same folder as the real data, and both
+  contained invented conversion rates formatted as if they were results. The risk was that one of
+  those numbers reached the manuscript, which would be a fabrication finding regardless of intent.
+  <b>Both files have been deleted from the repository.</b> Their structural advice, which was the
+  useful part, is already absorbed into this review. Earlier revisions remain in the git history,
+  so if either is ever recovered, treat every number in it as invented.</p>
+</div>
 <div class="box warn">
-  <p class="t">Two hazards, one of them already realised</p>
-  <p><code>Clinical Chemistry Manuscript Review.pdf</code> and <code>AnswerThis_analysis.docx</code>
-  are AI-generated and contain invented conversion rates presented in the format of results. They
-  sit in the same folder as the real data. The first hazard is that one of those numbers reaches
-  the manuscript, which would be a fabrication finding regardless of intent. The second is
-  disclosure: most journals now require a statement of how generative AI was used in preparing a
-  manuscript, and AI tools cannot be authors.</p>
-  <p>Two concrete steps. Rename or move those two files so their status is unmistakable, for
-  example into <code>manuscript/ai-generated-do-not-cite/</code>. And draft the AI-use disclosure
-  now, covering both those documents and this review, against the journal's current policy and
-  KI's guidance on generative AI in research.</p>
+  <p class="t">Hazard 2, still open — the disclosure statement</p>
+  <p>Most journals now require a statement of how generative AI was used in preparing a manuscript,
+  and AI tools cannot be authors. Draft that disclosure now, against the journal's current policy
+  and KI's guidance on generative AI in research. It has to cover this review and the deleted
+  critiques, not only text that survives into the submitted manuscript.</p>
 </div>
 
 <h2 id="checklist">What to add to the action list</h2>

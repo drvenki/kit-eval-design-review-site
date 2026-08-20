@@ -49,6 +49,21 @@
 <code>TGA</code>, 207 library rows) and <code>manuscript/data/experiment overview.xlsx</code>.
 This is the material your supervisor asked to have written down.</p>
 
+<h2 id="schematic">The whole study on one page</h2>
+<figure>
+  <img src="img/study-schematic.svg"
+       alt="Flowchart of the study. Three pooled DNA sources — cfDNA from ProBio plasma, gDNA from two blood donors, FFPE from nine blocks — feed four input conditions: cfDNA 30 ng with six kits, and gDNA 150 ng, FFPE 25 ng and FFPE 150 ng with five kits each. Each kit and input condition was prepared as three batches of three technical replicates, giving 189 analysed libraries. All libraries passed through one target capture, one sequencing run downsampled to 35 million read pairs, and one bioinformatic pipeline with duplex consensus calling, before five endpoints were measured and analysed with a batch-level mixed model. Side notes record the nesting structure, four libraries excluded for capture failure, and two structural confounds.">
+  <figcaption>
+    <code>review-site/img/study-schematic.svg</code> · Vector, so it scales without loss and
+    converts to EPS for submission. Green stages are the ones that are <em>not</em> confounded with
+    kit: the same capture and the same sequencing run for every library. That is the part of the
+    design that makes a between-kit comparison meaningful at all. The right-hand notes are the
+    three things a reader has to know before reading any p-value:
+    <a href="3-statistics.html">the nesting</a>, <a href="#exclusions">the excluded libraries</a>
+    and <a href="2-confounding.html">the confounds</a>.
+  </figcaption>
+</figure>
+
 <h2 id="factors">Factor structure</h2>
 <div class="tbl-wrap">
 <table>

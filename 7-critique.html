@@ -78,16 +78,31 @@ conversion_rate     = saturation_cov / theoretical_max_cov</code></pre>
 </div>
 
 <h2 id="exclusions">Sample handling and exclusions</h2>
+<div class="box ok">
+  <p class="t">Criterion 1, supplied 20 Aug 2026 — libraries that failed capture</p>
+  <p>Four libraries failed target capture and yielded essentially no reads. They are absent from
+  the conversion-rate files <em>and</em> from the HsMetrics table, so no result was seen and then
+  discarded: <code>cfDNA KAPAON B3R2</code>, <code>cfDNA WM B2R3</code>,
+  <code>gDNA KAPAON-COV B3R1</code> and <code>FFPE 25 ng KAPAON-COV B2R3</code>. This is a
+  defensible QC exclusion on a pre-specified quality ground, and it accounts for every group where
+  n = 8 rather than 9, which is four of the 21 kit × sample-type groups. <b>What still has to be
+  written down is the threshold.</b> State the read count, or the on-target or coverage criterion,
+  below which a library was declared a capture failure, so a reader can check the rule rather than
+  take the list on trust.</p>
+</div>
 <div class="box decision">
-  <p class="t">The easiest thing in the paper for a reviewer to attack</p>
-  <p>Libraries are missing from the analysis without a documented rule:
-  <code>KAPAON30ngB3R2</code>, <code>WM30ngB2R3</code>, <code>EVO25ngB1R1</code>,
-  <code>EVO150ngB1R1</code>, <code>KAPAONCOVARIS25ngB2R3</code>, <code>gDNA EVO150ngB1R1</code>.
-  <code>plot_saturation_curves_20260512.R</code> drops several of these <em>by name</em> as
-  outliers. Post-hoc removal by name, after seeing the data, with no stated criterion, is
-  indefensible as written. Either restore them, or define the exclusion rule prospectively (for
-  example "libraries failing QC threshold X") and apply it uniformly to every arm. Report n per
-  group in Table 1: it is 8 or 9, not always 9.</p>
+  <p class="t">Criterion 2, still open — three EVO libraries dropped by name</p>
+  <p><code>plot_saturation_curves_20260512.R</code> drops five libraries <em>by name</em> before
+  plotting. Two of those filters are redundant, because <code>KAPAON30ngB3R2</code> and
+  <code>KAPAONCOVARIS25ngB2R3</code> are capture failures that were never in the data. The other
+  three are libraries that <em>do</em> carry results and are removed anyway: EVO batch 1 replicate 1
+  in gDNA, in FFPE 150 ng and in FFPE 25 ng. Removal by name, after seeing the data, with no stated
+  criterion, is the one thing here a reviewer can attack directly. The pattern is at least
+  suggestive rather than arbitrary, since all three are the same batch and replicate of the same
+  kit, so the likely honest answer is that something went wrong with that preparation. Either
+  restore them, or say what the shared cause was and fold it into criterion 1. Note that this
+  affects only the saturation-curve figure: the conversion-rate analysis and Table 1 already
+  include all three.</p>
 </div>
 <ul>
   <li>The two cfDNA filters applied in every script (dropping <code>EVO.*-KH20250815</code> and
@@ -103,16 +118,18 @@ conversion_rate     = saturation_cov / theoretical_max_cov</code></pre>
   unstated.</li>
 </ul>
 
-<h2 id="fabricated">Do not use numbers from the two AI documents</h2>
-<div class="box decision">
-  <p class="t">Both are invented</p>
+<h2 id="fabricated">The two AI documents have been deleted</h2>
+<div class="box ok">
+  <p class="t">Removed 20 Aug 2026</p>
   <p><code>Clinical Chemistry Manuscript Review.pdf</code> and
-  <code>AnswerThis_analysis.docx</code> are AI-generated editorial critiques, not co-author input,
-  and not derived from this study's data. The review's "Recommended Abstract" quotes conversion
-  rates of 65 to 87 % under a heading reading
-  <code>[INSERT YOUR QUANTITATIVE FINDINGS - Examples below based on typical performance]</code>.
-  <b>The real range is 0.02 to 0.62.</b> Their structural checklist (word limits, effect sizes,
-  sample-size reporting) is useful. Their numbers are fabrications.</p>
+  <code>AnswerThis_analysis.docx</code> were AI-generated editorial critiques, not co-author input,
+  and not derived from this study's data. The first quoted conversion rates of 65 to 87 % in a
+  "Recommended Abstract", under a heading reading
+  <code>[INSERT YOUR QUANTITATIVE FINDINGS - Examples below based on typical performance]</code>,
+  against a real range of 0.02 to 0.62. Both files are now gone from the repository. Their
+  structural checklist, which was the part worth keeping, has been folded into this review and into
+  the <a href="9-actions.html">action list</a>. If you meet a copy of either document elsewhere,
+  every number in it is invented.</p>
 </div>
 
 <h2 id="supported">What the corrected analysis actually supports</h2>

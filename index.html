@@ -140,7 +140,7 @@ anova(m, ddf = "Kenward-Roger")   # + Holm-adjusted pairwise contrasts on batch 
 
 <h2>Where to go next</h2>
 <div class="cards">
-  <a class="card" href="1-design.html"><b>Experimental design</b><span>Factor structure, nesting, DNA sources, and the full kit × sample type × batch layout with dates, operators, PCR cycles and adapter ratios.</span></a>
+  <a class="card" href="1-design.html"><b>Experimental design</b><span>Opens with a one-page schematic of the whole study, then factor structure, nesting, DNA sources, and the full kit × sample type × batch layout with dates, operators, PCR cycles and adapter ratios.</span></a>
   <a class="card" href="2-confounding.html"><b>Confounding &amp; defects</b><span>The five places the design departs from "3 batches × 3 replicates", each with the numbers.</span></a>
   <a class="card" href="3a-plain-english.html"><b>In plain English</b><span>The whole statistical argument without jargon: why nine points are not nine, why three-versus-three cannot work, and what pooling repairs.</span></a>
   <a class="card" href="3-statistics.html"><b>The problem, quantified</b><span>Per-stratum ICC, design effect, and why the current p-values are too small.</span></a>
@@ -157,9 +157,9 @@ anova(m, ddf = "Kenward-Roger")   # + Holm-adjusted pairwise contrasts on batch 
 <p>Every number on this site is recomputed from
 <code>manuscript/data/Collected prep info.xlsx</code> (sheet <code>TGA</code>),
 <code>manuscript/data/experiment overview.xlsx</code> and
-<code>manuscript/data/conversion_rate/*.txt</code>. Nothing is taken from
-<code>Clinical Chemistry Manuscript Review.pdf</code> or <code>AnswerThis_analysis.docx</code>:
-both are AI-generated and their quantitative results are invented.</p>
+<code>manuscript/data/conversion_rate/*.txt</code>. Nothing is taken from the two AI-generated
+editorial critiques that used to sit alongside the data; their quantitative results were invented
+and <a href="7-critique.html#fabricated">both files have been deleted</a>.</p>
 <pre><code>cd ~/study2_kit-complexity-evaluation
 Rscript program/plot_conversion_rate_batchlevel_20260817.R</code></pre>
 <p>The same content is available as a single markdown file at

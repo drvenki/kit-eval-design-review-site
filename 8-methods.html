@@ -90,7 +90,7 @@ matrix: cfDNA from leftover plasma of several ProBio participants, genomic DNA f
 donors, and FFPE DNA from punches of nine anonymised blocks aged one to four years, extracted
 individually and pooled. For each kit and input condition, three independent preparation batches
 were performed on separate occasions, each with three technical replicates, giving nine libraries
-per kit and input condition (n = 8 in six instances, see Table 1). All libraries were captured
+per kit and input condition (n = 8 in four instances, see Table 1). All libraries were captured
 with the same ProBio panel using Twist Target Enrichment Standard Hybridisation v1 by a single
 operator, in hybridisation pools listed in Table 1, and sequenced on a NovaSeq X across three flow
 cells with libraries distributed across lanes. All libraries were processed through one
@@ -107,21 +107,27 @@ Figure Sx).</p>
 </blockquote>
 
 <h2 id="exclusions">Exclusions</h2>
-<p>This paragraph cannot be written until the exclusion rule is decided. The template is:</p>
 <blockquote>
-<p>Libraries were excluded if [prospective criterion]. This affected n libraries: [list]. EVO cfDNA
-libraries were re-prepared in June 2025; that preparation was excluded because of documented
-protocol deviations during library preparation [specify], and the January–February 2025
-preparation was used. For the Illumina cfDNA arm, libraries from the second hybridisation were
-used, the first having been performed with incorrect blockers. Chromosome X was excluded from the
-cfDNA GC-bias analysis because [reason].</p>
+<p>Libraries that failed target enrichment were excluded before any analysis. A library was
+classified as a capture failure if it yielded [threshold: read count / on-target percentage],
+which no downstream metric can be computed from; such libraries are absent from all metric tables
+rather than removed after inspection of a result. This affected four of the 189 libraries, one
+each in the KAPAON and Watchmaker cfDNA arms, the KAPAON-COV genomic DNA arm and the KAPAON-COV
+FFPE 25 ng arm, giving n = 8 instead of 9 in those four groups (Table 1); all remaining groups
+have n = 9. EVO cfDNA libraries were re-prepared in June 2025; that preparation was excluded
+because of documented protocol deviations during library preparation [specify], and the
+January–February 2025 preparation was used. For the Illumina cfDNA arm, libraries from the second
+hybridisation were used, the first having been performed with incorrect blockers. Chromosome X was
+excluded from the cfDNA GC-bias analysis because [reason].</p>
 </blockquote>
 <div class="box warn">
-  <p class="t">One decision still blocks this paragraph, and one bracket still needs filling</p>
-  <p>The <a href="7-critique.html#exclusions">outlier-removal criterion</a> is unresolved and
-  changes the numbers. The <a href="4-recommendation.html#evo">EVO run choice</a> is settled, but
-  "[specify]" has to become a concrete statement of what went wrong in the June re-prep before the
-  sentence is publishable.</p>
+  <p class="t">Three brackets left, and one figure that does not yet match this paragraph</p>
+  <p>The capture-failure criterion is settled in substance, but <b>[threshold]</b> has to become a
+  number before the sentence is checkable, and <b>[specify]</b> has to become a concrete statement
+  of what went wrong in the June EVO re-prep. The <a href="4-recommendation.html#evo">EVO run
+  choice</a> itself is settled. Separately, the saturation-curve figure still drops
+  <a href="7-critique.html#exclusions">three EVO libraries by name</a> that this paragraph does not
+  exclude, so either that filter goes or the paragraph needs a sentence covering it.</p>
 </div>
 
 <h2 id="limitations">Limitations, for the Discussion</h2>

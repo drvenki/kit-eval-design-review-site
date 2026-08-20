@@ -52,14 +52,15 @@ session and are here so you can work through the list on screen.</p>
 <ul class="chk">
   <li class="done"><input type="checkbox" checked><label><b>Decide the EVO cfDNA run. Settled 17 Aug 2026:</b> the January/February first run is used; the June re-prep is excluded because it was carried out with documented protocol errors. This is what the scripts already do, so no number changes. <a href="4-recommendation.html#evo">Detail</a></label></li>
   <li><input type="checkbox"><label><b>Write down what went wrong in the June EVO re-prep</b>, specifically enough to put one sentence in the Methods. It currently exists only as spoken lab knowledge. <a href="4-recommendation.html#evo-record">Detail</a></label></li>
-  <li><input type="checkbox"><label><b>Decide the library exclusion rule.</b> Six libraries are currently dropped by name. Either restore them or state a prospective QC criterion applied uniformly. <a href="7-critique.html#exclusions">Detail</a></label></li>
+  <li><input type="checkbox"><label><b>Put a number on the capture-failure threshold.</b> The criterion is settled: four libraries failed target enrichment and are absent from every metric table. State the read count or on-target cut-off so the rule is checkable. <a href="7-critique.html#exclusions">Detail</a></label></li>
+  <li><input type="checkbox"><label><b>Resolve the three EVO libraries dropped by name</b> from the saturation-curve figure only. All three are batch 1 replicate 1; either restore them or record the shared cause. <a href="7-critique.html#exclusions">Detail</a></label></li>
   <li><input type="checkbox"><label><b>Confirm the statistical approach with ST.</b> Batch as the experimental unit (their point, accepted) but a mixed model rather than a rank test on three points. <a href="3-statistics.html#omnibus">The head-to-head numbers</a></label></li>
   <li><input type="checkbox"><label><b>Settle the title</b> from the three candidates, and decide whether "The ProBio team" moves to Acknowledgments.</label></li>
 </ul>
 
 <h2>Analysis</h2>
 <ul class="chk">
-  <li><input type="checkbox"><label>Rerun <code>program/plot_conversion_rate_batchlevel_20260817.R</code> once the library exclusion rule is settled. The EVO setting (<code>EVO_CFDNA_RUN &lt;- "orig"</code>) is already correct.</label></li>
+  <li><input type="checkbox"><label>Rerun <code>program/plot_conversion_rate_batchlevel_20260817.R</code> if the three by-name EVO drops are resolved in favour of restoring them. The EVO setting (<code>EVO_CFDNA_RUN &lt;- "orig"</code>) is already correct.</label></li>
   <li><input type="checkbox"><label>Apply the same batch-level treatment to <code>plot_hsmetrics_20260512.R</code>, <code>plot_gcbias_20260512.R</code> and <code>FADE_artifacts_ggstats_20260610.R</code>. <a href="4-recommendation.html#other-figures">Suggested scales</a></label></li>
   <li><input type="checkbox"><label>Produce the coverage/saturation-curve figure and the background-error-rate figure as numbered supplementary files. Neither is currently in <code>supplementary_figures/</code>.</label></li>
   <li><input type="checkbox"><label>Run and record the varIdent and rank-based sensitivity analyses for the supplement.</label></li>
@@ -101,8 +102,9 @@ session and are here so you can work through the list on screen.</p>
   <p class="t">One habit worth keeping</p>
   <p>Every quantitative claim in the manuscript should be traceable to a file in
   <code>manuscript/data/</code> or to a script in <code>program/</code>. The two AI-generated
-  documents in <code>manuscript/</code> contain plausible-looking numbers that are invented; the
-  safest rule is that nothing is copied out of either one.</p>
+  documents that used to sit in <code>manuscript/</code> were full of plausible-looking invented
+  numbers, which is why they were deleted on 20 Aug 2026. If either is ever recovered from the git
+  history, the rule stands: nothing is copied out of it.</p>
 </div>
 
 <div class="pager">
