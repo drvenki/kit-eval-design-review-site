@@ -50,10 +50,10 @@ unit is now the batch, the brackets come from the mixed model, and the variance 
 the face of the figure.</p>
 
 <figure>
-  <img src="img/conversion_rate_batchlevel_20260817.png"
+  <img src="img/conversion_rate_batchlevel_20260820.png"
        alt="Four-panel boxplot of conversion rate by library preparation kit, for cfDNA 30 ng, FFPE 25 ng, gDNA 150 ng and FFPE 150 ng, with batch means overlaid as coloured points and Holm-adjusted significance brackets.">
   <figcaption>
-    <code>manuscript/main_figures/conversion_rate_batchlevel_20260817.png</code> ·
+    <code>manuscript/main_figures/conversion_rate_batchlevel_20260820.png</code> ·
     15.36 × 9.5 in, 300 dpi. Panels a–d: cfDNA 30 ng and FFPE 25 ng on the top row, gDNA 150 ng
     and FFPE 150 ng below. Large coloured points are the three batch means (the experimental
     units); small grey dots behind them are the individual libraries (technical replicates).
@@ -85,12 +85,15 @@ Rscript program/plot_conversion_rate_batchlevel_20260817.R</code></pre>
 <p>Reads <code>manuscript/data/conversion_rate/conversion_rate_*.txt</code> and writes three
 files into the working directory:</p>
 <ul>
-  <li><code>conversion_rate_batchlevel_20260817.png</code> — the figure.</li>
-  <li><code>conversion_rate_batchlevel_stats_20260817.tsv</code> — 45 contrasts with Holm p and
+  <li><code>conversion_rate_batchlevel_20260820.png</code> — the figure.</li>
+  <li><code>conversion_rate_batchlevel_stats_20260820.tsv</code> — 45 contrasts with Holm p and
   Hedges' g, plus the omnibus and variance components.</li>
-  <li><code>conversion_rate_batchlevel_descriptives_20260817.tsv</code> — 21 rows of per-kit mean,
+  <li><code>conversion_rate_batchlevel_descriptives_20260820.tsv</code> — 21 rows of per-kit mean,
   SD and n.</li>
 </ul>
+<p><small>Outputs are dated by the conversion-rate data they consume, not by the script. The
+<code>20260820</code> set supersedes <code>20260817</code>, which was built on the gDNA and FFPE
+files dated 2025-08-19.</small></p>
 <p>Both TSVs are already copied into <code>manuscript/data/</code> and are rendered on the
 <a href="6-tables.html">results tables page</a>.</p>
 
